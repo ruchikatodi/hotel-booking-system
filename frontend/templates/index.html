@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Novacrest Hotel | Luxury Stay</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">NOVA<span>CREST</span></a>
+                <div class="nav-links">
+                    <a href="index.html">Home</a>
+                    <a href="#rooms">Rooms</a>
+                    <a href="recommendations.html">Explore Nearby</a>
+                    <span id="userInfo" style="color: #c9a96e; font-weight: 600;"></span>
+                    <a href="login.html" class="btn btn-outline">Sign In</a>
+                    <a href="register.html" class="btn btn-accent">Book Now</a>
+                    <a href="dashboard.html" id="dashboardBtn" class="btn btn-accent" style="display: none;">Dashboard</a>
+                    <button id="logoutBtn" class="btn btn-danger" style="display: none;" onclick="logout()">Logout</button>
+                </div>
+                <div class="mobile-toggle">☰</div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-content container">
+            <h1 class="hero-title">Experience Pure Luxury</h1>
+            <p class="hero-subtitle">Sanctuary for the senses. Escape to Novacrest.</p>
+            
+            <!-- Search widget -->
+            <div class="search-widget">
+                <div class="search-field">
+                    <label>Check In</label>
+                    <input type="date" id="checkIn" class="date-input" required>
+                </div>
+                
+                <div class="search-field">
+                    <label>Check Out</label>
+                    <input type="date" id="checkOut" class="date-input" required>
+                </div>
+                
+                <div class="search-field">
+                    <label>Guests</label>
+                    <div class="guest-counter">
+                        <button type="button" class="counter-btn" id="decreaseGuests">−</button>
+                        <span class="guest-count" id="guestCount">2</span>
+                        <button type="button" class="counter-btn" id="increaseGuests">+</button>
+                    </div>
+                </div>
+                
+                <!-- CRITICAL: This is the search button - ID MUST match JS -->
+                <button type="button" class="btn btn-search" id="searchBtn">
+                    <span>Search Rooms</span>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Scroll indicator -->
+        <div class="scroll-indicator">
+            <span>Scroll to explore</span>
+            <div class="scroll-arrow">↓</div>
+        </div>
+    </section>
+
+    <!-- Filters -->
+    <section class="filters" id="rooms">
+        <div class="container filter-container">
+            <div class="section-title" style="font-size: 1.5rem; margin:0; text-align: left;">Our Collection</div>
+            <div class="filter-group">
+                <select id="categoryFilter">
+                    <option value="all">All Categories</option>
+                    <option value="standard">Standard</option>
+                    <option value="deluxe">Deluxe</option>
+                    <option value="suite">Suites</option>
+                </select>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="availabilityFilter">
+                    <span>Available only</span>
+                </label>
+            </div>
+        </div>
+    </section>
+
+    <!-- Rooms Grid -->
+    <section class="rooms-section">
+        <div class="container">
+            <div class="rooms-grid" id="roomsGrid">
+                <!-- Populated by JS -->
+                <p style="text-align: center; padding: 2rem; color: #b8955a; grid-column: 1/-1;">
+                    Use the search widget above to find available rooms
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Recommendations Section -->
+    <section class="recommendations-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Explore Nearby</h2>
+                <p class="section-subtitle">Discover the best places to visit near Novacrest Hotel</p>
+            </div>
+            <div class="recommendations-grid" id="recommendationsGrid">
+                <!-- Populated by JS -->
+            </div>
+            <div style="text-align: center; margin-top: 3rem;">
+                <a href="recommendations.html" class="btn btn-accent">View All Recommendations</a>
+            </div>
+        </div>
+    </section>
+
+    <footer style="background: #1a1a1a; color: white; padding: 4rem 0; text-align: center;">
+        <div class="container">
+            <div class="logo" style="justify-content: center; margin-bottom: 2rem; color: white;">NOVA<span>CREST</span></div>
+            <p style="opacity: 0.6;">&copy; 2025 Novacrest Hotels. All rights reserved.</p>
+            <p style="opacity: 0.6;">Contact: novacrest@gmail.com</p>
+
+        </div>
+    </footer>
+
+    <!-- Alert Container -->
+    <div id="alertContainer"></div>
+
+    <!-- Load JavaScript -->
+    <script src="/static/js/script.js"></script>
+</body>
+</html>

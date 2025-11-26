@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explore Nearby | Novacrest</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body id="recommendationsPage">
+    <header>
+        <div class="container">
+            <nav>
+                <a href="/" class="logo">NOVA<span>CREST</span></a>
+                <div class="nav-links">
+                    <span id="userInfo"></span>
+                    <button onclick="logout()" id="logoutBtn" style="display:none">Logout</button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <section class="recommendations-page">
+        <div class="container">
+            <h1>Explore Nearby</h1>
+            <p>Handpicked experiences around Novacrest Hotel</p>
+
+            <!-- <div class="filters">
+                <select id="categoryFilter" onchange="filterRecommendations()">
+                    <option value="">All Categories</option>
+                    <option value="cafe">Cafes</option>
+                    <option value="restaurant">Restaurants</option>
+                    <option value="tourist_spot">Tourist Spots</option>
+                    <option value="shopping">Shopping</option>
+                </select>
+            </div> -->
+
+            <div class="recommendations-grid" id="recommendationsGrid">
+                <!-- JS will populate -->
+            </div>
+        </div>
+    </section>
+
+    <div id="alertContainer"></div>
+    <script src="/static/js/script.js"></script>
+    <script>
+        async function loadRecommendations() {
+            try {
+                const resp = await fetch('/api/recommendations');
+                const data = await resp.json();
+                const grid = document.getElementById('recommendationsGrid');
+                grid.innerHTML = data.recommendations.map(r => `
+                    <div class="rec-card">
+                        <div class="rec-category">${r.category.replace('_', ' ')}</div>
+                        
+                        <h3>${r.title}</h3>
+                        <p>${r.description || "No description available"}</p>
+
+                        <div class="rec-meta">
+                            <p>📍 ${r.address || "Address not available"}</p>
+                            <p>⭐ ${r.rating}/5 • 💰 ${r.price_range}</p>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (e) {
+                grid.innerHTML = '<p>Failed to load recommendations</p>';
+            }
+        }
+        function filterRecommendations() {
+            const cat = document.getElementById('categoryFilter').value;
+            loadRecommendations(); // You can enhance with filtering later
+        }
+        document.addEventListener('DOMContentLoaded', loadRecommendations);
+    </script>
+</body>
+</html>

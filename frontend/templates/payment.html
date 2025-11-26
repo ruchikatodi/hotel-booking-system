@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Payment | Novacrest</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <a href="/" class="logo">NOVA<span>CREST</span></a>
+                <div class="nav-links">
+                    <span id="userInfo"></span>
+                    <button onclick="logout()" id="logoutBtn" style="display:none">Logout</button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <section class="payment-section">
+        <div class="container">
+            <div class="payment-card">
+                <h2>Complete Your Booking</h2>
+                <div id="booking-summary">
+                    <p><strong>Room Type:</strong> <span id="roomType">-</span></p>
+                    <p><strong>Dates:</strong> <span id="dates">-</span></p>
+                    <p><strong>Guests:</strong> <span id="guestsCount">-</span></p>
+                    <p><strong>Total Amount:</strong> <span id="totalAmount" class="price">₹0</span></p>
+                </div>
+
+                <div class="payment-methods">
+                    <h3>Select Payment Method</h3>
+                    <select id="paymentMethod" class="form-control">
+                        <option value="">-- Choose --</option>
+                        <option value="credit_card">Credit Card</option>
+                        <option value="debit_card">Debit Card</option>
+                        <option value="upi">UPI</option>
+                        <option value="net_banking">Net Banking</option>
+                    </select>
+                </div>
+
+                <button id="paymentBtn" class="btn btn-success full-width" onclick="processPayment()">
+                    Pay Now & Confirm Booking
+                </button>
+
+                <div style="text-align:center; margin-top:2rem;">
+                    <a href="javascript:history.back()">← Change dates or room</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div id="alertContainer"></div>
+    <script src="/static/js/script.js"></script>
+    <!-- <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const booking = JSON.parse(localStorage.getItem('booking') || '{}');
+            if (!booking.booking_id) {
+                showAlert('No active booking found', 'error');
+                setTimeout(() => location.href = '/', 2000);
+                return;
+            }
+            document.getElementById('roomType').textContent = `Room ${booking.room_id}`;
+            document.getElementById('dates').textContent = `${booking.check_in_date} to ${booking.check_out_date}`;
+            document.getElementById('guestsCount').textContent = booking.guests;
+            document.getElementById('totalAmount').textContent = `₹${booking.total_amount}`;
+        });
+    </script> -->
+</body>
+</html>

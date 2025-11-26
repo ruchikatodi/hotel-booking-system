@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Bookings | Novacrest</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body id="userDashboardPage">
+    <header>
+        <div class="container">
+            <nav>
+                <a href="/" class="logo">NOVA<span>CREST</span></a>
+                <div class="nav-links">
+                    <span id="userInfo"></span>
+                    <button onclick="logout()" id="logoutBtn">Logout</button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <section class="dashboard">
+        <div class="container">
+            <h1>My Bookings</h1>
+            <div id="bookingsContainer" style="
+                margin-top: 30px;
+                background: #ffffff;
+                padding: 25px;
+                border-radius: 16px;
+                box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+            ">
+                <div style="margin-bottom: 20px;">
+                    <button onclick="loadUserBookings('upcoming')">Upcoming</button>
+                    <button onclick="loadUserBookings('active')">Active</button>
+                    <button onclick="loadUserBookings('past')">Past</button>
+                    <button onclick="loadUserBookings('all')">All</button>
+                </div>
+                <table class="bookings-table" style="width: 100%; border-collapse: collapse; font-size: 1rem;">
+                    <thead>
+                        <tr style="background: #faf7f0; color: #333;">
+                            <th style="padding: 14px; border-bottom: 2px solid #e0d9c8;">Booking ID</th>
+                            <th style="padding: 14px; border-bottom: 2px solid #e0d9c8;">Room</th>
+                            <th style="padding: 14px; border-bottom: 2px solid #e0d9c8;">Check-In</th>
+                            <th style="padding: 14px; border-bottom: 2px solid #e0d9c8;">Check-Out</th>
+                            <th style="padding: 14px; border-bottom: 2px solid #e0d9c8;">Total</th>
+                            <th style="padding: 14px; border-bottom: 2px solid #e0d9c8;">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="bookingsTable">
+                        <tr><td colspan="6" style="text-align:center; padding:20px;">Loading your bookings...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </section>
+
+    <div id="alertContainer"></div>
+    <script src="/static/js/script.js"></script>
+    <!-- <script>
+        document.addEventListener('DOMContentLoaded', loadUserBookings);
+    </script> -->
+</body>
+</html>

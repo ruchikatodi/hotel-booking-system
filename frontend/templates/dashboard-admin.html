@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | Novacrest</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body id="adminDashboardPage">
+    <header>
+        <div class="container">
+            <nav>
+                <a href="/" class="logo">NOVA<span>CREST</span></a>
+                <div class="nav-links">
+                    <span id="userInfo">Admin</span>
+                    <button onclick="logout()">Logout</button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <section class="admin-dashboard">
+        <div class="container">
+            <h1>Admin Dashboard</h1>
+            <div id="adminDashboard" style="display:grid; gap:20px;">
+
+                <!-- Revenue -->
+                <div style="padding:20px; background:#ffffff; border-radius:8px; box-shadow:0 2px 6px rgba(0,0,0,0.1);">
+                    <h2>Revenue Stats</h2>
+                    <p><strong>Total Bookings:</strong> <span id="totalBookings">0</span></p>
+                    <p><strong>Total Revenue:</strong> <span id="totalRevenue">₹0</span></p>
+                </div>
+
+                <!-- Customers -->
+                <div style="padding:20px; background:#ffffff; border-radius:8px; box-shadow:0 2px 6px rgba(0,0,0,0.1);">
+                    <h2>Customers</h2>
+                    <p><strong>Total Customers:</strong> <span id="totalUsers">0</span></p>
+                </div>
+
+                <!-- Occupancy -->
+                <div style="padding:20px; background:#ffffff; border-radius:8px; box-shadow:0 2px 6px rgba(0,0,0,0.1);">
+                    <h2>Occupancy</h2>
+                    <p><strong>Average Occupancy:</strong> <span id="avgOccupancy">0%</span></p>
+                    <p><strong>Peak Occupancy:</strong> <span id="peakOccupancy">0%</span></p>
+                </div>
+
+                <!-- Room Performance -->
+                <div style="padding:20px; background:#ffffff; border-radius:8px; box-shadow:0 2px 6px rgba(0,0,0,0.1);">
+                    <h2>Room Performance</h2>
+                    <table style="width:100%; border-collapse:collapse;">
+                        <thead>
+                            <tr style="background:#eee;">
+                                <th>Category</th>
+                                <th>Bookings</th>
+                                <th>Revenue</th>
+                                <th>Nights</th>
+                                <th>Rev/Night</th>
+                            </tr>
+                        </thead>
+                        <tbody id="roomPerformanceTable"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div id="alertContainer"></div>
+    <script src="/static/js/script.js"></script>
+    <!-- <script>
+        document.addEventListener('DOMContentLoaded', loadAdminDashboard);
+    </script> -->
+</body>
+</html>
