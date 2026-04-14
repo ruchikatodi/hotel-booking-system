@@ -229,7 +229,7 @@ def create_booking():
         for room in rooms_in_category:
             conflicting = Booking.query.filter(
                 Booking.room_id == room.room_id,
-                Booking.status.in_(['confirmed', 'checked_in']),
+                Booking.status.in_(['confirmed', 'checked_in','pending']),
                 Booking.check_in_date < check_out,
                 Booking.check_out_date > check_in
             ).first()

@@ -140,13 +140,11 @@ class Booking(db.Model):
             return 0.0  # No refund
     
     def to_dict(self, include_payment=False):
+        """Convert to dictionary"""
         data = {
             'booking_id': self.booking_id,
             'user_id': self.user_id,
             'room_id': self.room_id,
-            'room_number': self.room.room_number if self.room else None,
-            'category_id': self.room.category_id if self.room else None,
-            'category_name': self.room.category.name if self.room else None,
             'check_in_date': self.check_in_date.isoformat(),
             'check_out_date': self.check_out_date.isoformat(),
             'guests': self.guests,
@@ -161,12 +159,11 @@ class Booking(db.Model):
             'is_current': self.is_current,
             'can_cancel': self.can_cancel
         }
-
+        
         if include_payment and self.payment:
             data['payment'] = self.payment.to_dict()
         
         return data
-
     
     def __repr__(self):
         return f"<Booking {self.booking_id} - Room {self.room_id} ({self.status})>"
