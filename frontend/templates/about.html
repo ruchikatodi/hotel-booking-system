@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Our Sanctuary | Novacrest</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+    <!-- Transparent Header -->
+    <header id="mainHeader">
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">NOVA<span>CREST</span></a>
+                <div class="nav-links" id="navLinks">
+                    <a href="index.html">Home</a>
+                    <a href="index.html#rooms">Suites</a>
+                    <a href="gallery.html">Gallery</a>
+                    <a href="offers.html">Offers</a>
+                    <a href="about.html">About</a>
+                    <a href="contact.html">Contact</a>
+                    <a href="recommendations.html">Nearby</a>
+                    <span id="userInfo" style="color: var(--color-gold); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 600;"></span>
+                    <a href="login.html" id="signInLink" class="btn btn-outline">Sign In</a>
+                    <a href="dashboard.html" id="dashboardBtn" class="btn btn-accent" style="display: none; padding: 0.6rem 1.4rem;">Dashboard</a>
+                    <button id="logoutBtn" class="btn btn-danger" style="display: none; padding: 0.6rem 1.4rem;" onclick="logout()">Logout</button>
+                </div>
+                <div class="mobile-toggle" id="mobileMenuToggle">☰</div>
+            </nav>
+        </div>
+    </header>
+
+    <main class="page-shell">
+        <!-- Cinematic Page Hero -->
+        <section class="page-hero about-hero">
+            <div class="container">
+                <span class="eyebrow" style="color: var(--color-sand);">Our Heritage</span>
+                <h1>About Novacrest</h1>
+                <p>Thoughtful hospitality, mindful architecture, and a resort sanctuary designed to inspire peace and absolute restoration.</p>
+            </div>
+        </section>
+
+        <!-- Storytelling Section -->
+        <section>
+            <div class="container split-layout" style="align-items: center;">
+                <div>
+                    <span class="eyebrow">Our Philosophy</span>
+                    <h2 class="section-title left">Built for meaningful moments</h2>
+                    <p>Novacrest began not merely as a hotel, but as a sanctuary. Designed for guests seeking an escape from the relentless pace of modern life, our resort combines native design aesthetics with bespoke luxury services.</p>
+                    <p>Over the years, we have cultivated a space of absolute quiet and simplicity, allowing guests to reconnect with themselves and their surroundings. Our mission is to make every arrival a transition to peace, and every departure a return to wellness.</p>
+                </div>
+                <div class="intro-media">
+                    <img src="https://images.unsplash.com/photo-1540541338287-41700207dee6?auto=format&fit=crop&w=1200&q=85" alt="Novacrest Resort Courtyard Lounge">
+                </div>
+            </div>
+        </section>
+
+        <!-- Philosophy quote -->
+        <section class="philosophy-banner" style="padding: 0; border: none;">
+            <div class="container" style="background-color: var(--color-white); border-top: 1px solid var(--color-sand); border-bottom: 1px solid var(--color-sand); padding: 7rem 2.5rem; width: 100%; max-width: 100%;">
+                <blockquote class="philosophy-text">
+                    "We believe hospitality is the fine art of space, silence, and attentive time."
+                </blockquote>
+                <span class="philosophy-author">The Core Pillars of Novacrest</span>
+            </div>
+        </section>
+
+        <!-- Values Cards -->
+        <section style="background-color: var(--color-bg); padding-top: 5rem;">
+            <div class="container">
+                <div style="text-align: center; margin-bottom: 5rem;">
+                    <span class="eyebrow">Our Focus</span>
+                    <h2 class="section-title">Sanctuary Foundations</h2>
+                </div>
+                <div class="highlight-grid" style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;">
+                    <article class="highlight-item" style="border-left: 2px solid var(--color-gold); padding-left: 1.5rem;">
+                        <strong>Bespoke Service</strong>
+                        <p style="font-size: 0.9rem; color: #666; margin-top: 0.5rem;">Tailored airport transfers, check-ins, and individual preference support.</p>
+                    </article>
+                    <article class="highlight-item" style="border-left: 2px solid var(--color-gold); padding-left: 1.5rem;">
+                        <strong>Silent Spaces</strong>
+                        <p style="font-size: 0.9rem; color: #666; margin-top: 0.5rem;">Carefully soundproofed chambers and tranquil garden pavilions.</p>
+                    </article>
+                    <article class="highlight-item" style="border-left: 2px solid var(--color-gold); padding-left: 1.5rem;">
+                        <strong>Gastronomic Truth</strong>
+                        <p style="font-size: 0.9rem; color: #666; margin-top: 0.5rem;">Menus sourced organically from local estates, emphasizing seasonal freshness.</p>
+                    </article>
+                    <article class="highlight-item" style="border-left: 2px solid var(--color-gold); padding-left: 1.5rem;">
+                        <strong>Responsible Luxury</strong>
+                        <p style="font-size: 0.9rem; color: #666; margin-top: 0.5rem;">Eco-friendly resource management and supporting neighborhood craftsmanship.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- Team Section -->
+        <section class="team-section" style="background-color: var(--color-white); border-top: 1px solid var(--color-sand);">
+            <div class="container">
+                <div style="text-align: center; margin-bottom: 5rem;">
+                    <span class="eyebrow">Our Family</span>
+                    <h2 class="section-title">The Curators</h2>
+                    <p class="section-subtitle">Dedicated stewards committed to making your stay flawless and restoring.</p>
+                </div>
+                
+                <div class="offers-grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 3rem;">
+                    <article class="offer-card" style="text-align: center; padding: 3rem 2rem;">
+                        <span class="eyebrow">General Manager</span>
+                        <h3 style="font-family: var(--font-serif); margin-top: 0.5rem; font-size: 1.6rem;">Anika Rao</h3>
+                        <p style="font-size: 0.9rem; color: #666; margin-top: 1rem; margin-bottom: 0;">Directs guest experience, ensuring absolute service alignment across the resort.</p>
+                    </article>
+                    
+                    <article class="offer-card" style="text-align: center; padding: 3rem 2rem;">
+                        <span class="eyebrow">Rooms Director</span>
+                        <h3 style="font-family: var(--font-serif); margin-top: 0.5rem; font-size: 1.6rem;">Rahul Menon</h3>
+                        <p style="font-size: 0.9rem; color: #666; margin-top: 1rem; margin-bottom: 0;">Preserves chamber standards, private garden details, and guest comfort.</p>
+                    </article>
+                    
+                    <article class="offer-card" style="text-align: center; padding: 3rem 2rem;">
+                        <span class="eyebrow">Guest Relations</span>
+                        <h3 style="font-family: var(--font-serif); margin-top: 0.5rem; font-size: 1.6rem;">Meera Shah</h3>
+                        <p style="font-size: 0.9rem; color: #666; margin-top: 1rem; margin-bottom: 0;">Handles custom requests, curated local guidebook coordination, and bookings.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Luxury Footer -->
+    <footer>
+        <div class="container" style="display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 4rem; text-align: left;">
+            <div>
+                <a href="index.html" class="logo" style="color: var(--color-white); margin-bottom: 1.5rem; display: block;">NOVA<span>CREST</span></a>
+                <p style="max-width: 340px; font-weight: 300; line-height: 1.8; margin-bottom: 2rem; color: rgba(255,255,255,0.6);">A private sanctuary of absolute silence, botanical beauty, and bespoke luxury services in Bengaluru.</p>
+                <p style="color: rgba(255,255,255,0.4); font-size: 0.75rem;">&copy; 2026 Novacrest Hotel Group. All rights reserved.</p>
+            </div>
+            <div>
+                <h4 style="font-family: var(--font-sans); text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.15em; color: var(--color-white); margin-bottom: 1.5rem; font-weight: 600;">Explore</h4>
+                <p><a href="index.html#rooms" style="color: rgba(255,255,255,0.6); text-decoration: none; transition: var(--transition-smooth); font-size: 0.85rem; font-weight: 300;">Suites</a></p>
+                <p><a href="gallery.html" style="color: rgba(255,255,255,0.6); text-decoration: none; transition: var(--transition-smooth); font-size: 0.85rem; font-weight: 300;">Gallery</a></p>
+                <p><a href="offers.html" style="color: rgba(255,255,255,0.6); text-decoration: none; transition: var(--transition-smooth); font-size: 0.85rem; font-weight: 300;">Offers</a></p>
+                <p><a href="recommendations.html" style="color: rgba(255,255,255,0.6); text-decoration: none; transition: var(--transition-smooth); font-size: 0.85rem; font-weight: 300;">Nearby Guide</a></p>
+            </div>
+            <div>
+                <h4 style="font-family: var(--font-sans); text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.15em; color: var(--color-white); margin-bottom: 1.5rem; font-weight: 600;">Contact</h4>
+                <p style="color: rgba(255,255,255,0.6); font-size: 0.85rem; font-weight: 300; margin-bottom: 0.5rem;">MG Road, Bengaluru, India</p>
+                <p style="color: rgba(255,255,255,0.6); font-size: 0.85rem; font-weight: 300; margin-bottom: 0.5rem;">+91 98765 43210</p>
+                <p style="color: rgba(255,255,255,0.6); font-size: 0.85rem; font-weight: 300; margin-bottom: 0.5rem;">novacrest@gmail.com</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Alert Container -->
+    <div id="alertContainer"></div>
+
+    <script src="/static/js/script.js"></script>
+</body>
+</html>

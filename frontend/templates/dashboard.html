@@ -30,10 +30,10 @@
                 box-shadow: 0 8px 20px rgba(0,0,0,0.05);
             ">
                 <div style="margin-bottom: 20px;">
-                    <button onclick="loadUserBookings('upcoming')">Upcoming</button>
-                    <button onclick="loadUserBookings('active')">Active</button>
-                    <button onclick="loadUserBookings('past')">Past</button>
-                    <button onclick="loadUserBookings('all')">All</button>
+                    <button class="btn btn-accent" onclick="loadUserBookings('upcoming')">Upcoming</button>
+                    <button class="btn btn-accent" onclick="loadUserBookings('active')">Active</button>
+                    <button class="btn btn-accent" onclick="loadUserBookings('past')">Past</button>
+                    <button class="btn btn-accent" onclick="loadUserBookings('all')">All</button>
                 </div>
                 <table class="bookings-table" style="width: 100%; border-collapse: collapse; font-size: 1rem;">
                     <thead>
@@ -44,10 +44,11 @@
                             <th style="padding: 14px; border-bottom: 2px solid #e0d9c8;">Check-Out</th>
                             <th style="padding: 14px; border-bottom: 2px solid #e0d9c8;">Total</th>
                             <th style="padding: 14px; border-bottom: 2px solid #e0d9c8;">Status</th>
+                            <th style="padding: 14px; border-bottom: 2px solid #e0d9c8;">Actions</th>
                         </tr>
                     </thead>
                     <tbody id="bookingsTable">
-                        <tr><td colspan="6" style="text-align:center; padding:20px;">Loading your bookings...</td></tr>
+                        <tr><td colspan="7" style="text-align:center; padding:20px;">Loading your bookings...</td></tr>
                     </tbody>
                 </table>
             </div>

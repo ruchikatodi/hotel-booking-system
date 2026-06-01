@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stay Offers & Packages | Novacrest</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+    <!-- Transparent Header -->
+    <header id="mainHeader">
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">NOVA<span>CREST</span></a>
+                <div class="nav-links" id="navLinks">
+                    <a href="index.html">Home</a>
+                    <a href="index.html#rooms">Suites</a>
+                    <a href="gallery.html">Gallery</a>
+                    <a href="offers.html">Offers</a>
+                    <a href="about.html">About</a>
+                    <a href="contact.html">Contact</a>
+                    <a href="recommendations.html">Nearby</a>
+                    <span id="userInfo" style="color: var(--color-gold); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 600;"></span>
+                    <a href="login.html" id="signInLink" class="btn btn-outline">Sign In</a>
+                    <a href="dashboard.html" id="dashboardBtn" class="btn btn-accent" style="display: none; padding: 0.6rem 1.4rem;">Dashboard</a>
+                    <button id="logoutBtn" class="btn btn-danger" style="display: none; padding: 0.6rem 1.4rem;" onclick="logout()">Logout</button>
+                </div>
+                <div class="mobile-toggle" id="mobileMenuToggle">☰</div>
+            </nav>
+        </div>
+    </header>
+
+    <main class="page-shell">
+        <!-- Page Hero -->
+        <section class="page-hero offers-hero">
+            <div class="container">
+                <span class="eyebrow" style="color: var(--color-sand);">Curated Itineraries</span>
+                <h1>Stay Packages</h1>
+                <p>Choose an exclusive package tailored to standard retreats, celebrations, and business transit.</p>
+            </div>
+        </section>
+
+        <!-- Stays Catalog Grid -->
+        <section style="background-color: var(--color-bg); padding-bottom: 8rem;">
+            <div class="container offers-grid">
+                
+                <!-- Weekend Discount -->
+                <article class="offer-card">
+                    <div>
+                        <span class="eyebrow">15% OFF</span>
+                        <h3>Weekend Escape</h3>
+                        <p>A relaxing weekend stay in our Standard or Deluxe chambers, featuring full wellness inclusions.</p>
+                        <ul class="offer-inclusions">
+                            <li>Complimentary breakfast in the Crest room</li>
+                            <li>Early check-in access (from 11:00 AM)</li>
+                            <li>15% off spa therapies</li>
+                            <li>Valid Friday, Saturday, and Sunday nights</li>
+                        </ul>
+                    </div>
+                    <button class="btn btn-primary full-width" onclick="openPackageModal('Weekend Discount', 'Enjoy a 15% discount on Standard and Deluxe room stays over the weekend (Friday - Sunday).')">Book Package</button>
+                </article>
+
+                <!-- Honeymoon Package -->
+                <article class="offer-card">
+                    <div>
+                        <span class="eyebrow">ROMANTIC RETREAT</span>
+                        <h3>Honeymoon Package</h3>
+                        <p>Create unforgettable memories with a romantic suite layout, champagne, and pool dinners.</p>
+                        <ul class="offer-inclusions">
+                            <li>Romantic canopy bed & rose petal decor</li>
+                            <li>Chilled premium champagne upon arrival</li>
+                            <li>Private candlelit dinner by the pool deck</li>
+                            <li>Late check-out options (until 4:00 PM)</li>
+                        </ul>
+                    </div>
+                    <button class="btn btn-primary full-width" onclick="openPackageModal('Honeymoon Package', 'Book our luxurious Honeymoon Suite with romantic inclusions and late check-out. Flat rate: ₹5000/night.')">Book Package</button>
+                </article>
+
+                <!-- Corporate Package -->
+                <article class="offer-card">
+                    <div>
+                        <span class="eyebrow">BUSINESS TRANSIT</span>
+                        <h3>Corporate Plan</h3>
+                        <p>Stay productive with chauffeured travel support, high-speed Wi-Fi, and priority executive check-in.</p>
+                        <ul class="offer-inclusions">
+                            <li>Complimentary premium airport transfers</li>
+                            <li>High-speed workspace network connectivity</li>
+                            <li>Expedited corporate billing & invoices</li>
+                            <li>Complimentary executive club refreshments</li>
+                        </ul>
+                    </div>
+                    <button class="btn btn-primary full-width" onclick="openPackageModal('Corporate Package', 'Reserve our business-focused Executive Room with complimentary airport shuttle and premium workspace amenities. Flat rate: ₹2800/night.')">Book Package</button>
+                </article>
+
+                <!-- Long-Stay Discount -->
+                <article class="offer-card">
+                    <div>
+                        <span class="eyebrow">20% OFF</span>
+                        <h3>Long-Stay Discount</h3>
+                        <p>Extend your stay and enjoy deeper relaxation, daily laundry services, and lounge privileges.</p>
+                        <ul class="offer-inclusions">
+                            <li>20% discount on all room tiers</li>
+                            <li>Complimentary daily laundry service</li>
+                            <li>Full access to executive club lounge</li>
+                            <li>Requires a minimum duration of 7 nights</li>
+                        </ul>
+                    </div>
+                    <button class="btn btn-primary full-width" onclick="openPackageModal('Long-Stay Discount', 'Stay 7 nights or more in any room category and receive an automatic 20% discount on your entire stay.')">Book Package</button>
+                </article>
+                
+            </div>
+        </section>
+
+        <!-- Luxury Styled Package Booking Modal -->
+        <div id="packageBookingModal" class="modal">
+            <div class="modal-content">
+                <span class="close-modal" onclick="closePackageModal()">&times;</span>
+                <span class="eyebrow">Reservation Form</span>
+                <h2 id="modalPackageTitle" style="font-family: var(--font-serif); font-weight: 400; margin-top: 0.5rem;">Book Stay Package</h2>
+                <p id="modalPackageDesc" style="color: #666; font-size: 0.88rem; line-height: 1.6; margin-top: 0.5rem; margin-bottom: 2rem;"></p>
+                
+                <form id="packageBookingForm" onsubmit="event.preventDefault(); submitPackageBooking();">
+                    <input type="hidden" id="modalPackageName">
+                    
+                    <div class="form-group" id="modalCategoryGroup" style="display: none;">
+                        <label for="modalRoomCategory">Choose Room Category</label>
+                        <select id="modalRoomCategory" onchange="calculatePackageTotal()">
+                            <!-- Populated dynamically -->
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="packageCheckIn">Check-In Date</label>
+                        <input type="date" id="packageCheckIn" required onchange="calculatePackageTotal()">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="packageCheckOut">Check-Out Date</label>
+                        <input type="date" id="packageCheckOut" required onchange="calculatePackageTotal()">
+                    </div>
+                    
+                    <div class="form-group" id="guestCountGroup">
+                        <label for="packageGuests">Number of Guests</label>
+                        <input type="number" id="packageGuests" min="1" max="6" value="2" required onchange="calculatePackageTotal()">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="packageSpecialRequests">Special Requests</label>
+                        <textarea id="packageSpecialRequests" rows="3" placeholder="Examples: twin beds, airport arrival time, dietary restrictions..."></textarea>
+                    </div>
+                    
+                    <div class="package-pricing-summary">
+                        <p style="margin: 0; font-size: 0.9rem; color: #666; font-weight: 300;">
+                            Chamber Rate: <strong id="modalRatePerNight" style="color: var(--color-dark); font-weight: 500;">₹0</strong>
+                        </p>
+                        <p style="margin: 0.5rem 0 0 0; font-size: 1.2rem; color: var(--color-dark); font-weight: 400; font-family: var(--font-serif);">
+                            Estimated Booking Total: <strong id="modalTotalAmount" style="color: var(--color-gold); font-size: 1.35rem; font-weight: 500;">₹0</strong>
+                        </p>
+                        <p id="modalDiscountNote" style="margin: 0.4rem 0 0 0; font-size: 0.8rem; color: var(--color-success); font-weight: 600; display: none;">
+                            ✓ Luxury Package Discount Applied
+                        </p>
+                    </div>
+                    
+                    <div id="modalAuthAlert" style="display: none; margin-bottom: 2rem;">
+                        <p style="color: var(--color-error); font-size: 0.85rem; font-weight: 500; margin-bottom: 0.8rem; text-align: center;">Please sign in to proceed with booking.</p>
+                        <button type="button" class="btn btn-accent full-width" onclick="redirectToLogin()">Sign In to Book</button>
+                    </div>
+                    
+                    <button type="submit" id="confirmPackageBookingBtn" class="btn btn-primary full-width">Proceed to Booking</button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <!-- Luxury Footer -->
+    <footer>
+        <div class="container" style="display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 4rem; text-align: left;">
+            <div>
+                <a href="index.html" class="logo" style="color: var(--color-white); margin-bottom: 1.5rem; display: block;">NOVA<span>CREST</span></a>
+                <p style="max-width: 340px; font-weight: 300; line-height: 1.8; margin-bottom: 2rem; color: rgba(255,255,255,0.6);">A private sanctuary of absolute silence, botanical beauty, and bespoke luxury services in Bengaluru.</p>
+                <p style="color: rgba(255,255,255,0.4); font-size: 0.75rem;">&copy; 2026 Novacrest Hotel Group. All rights reserved.</p>
+            </div>
+            <div>
+                <h4 style="font-family: var(--font-sans); text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.15em; color: var(--color-white); margin-bottom: 1.5rem; font-weight: 600;">Explore</h4>
+                <p><a href="index.html#rooms" style="color: rgba(255,255,255,0.6); text-decoration: none; transition: var(--transition-smooth); font-size: 0.85rem; font-weight: 300;">Suites</a></p>
+                <p><a href="gallery.html" style="color: rgba(255,255,255,0.6); text-decoration: none; transition: var(--transition-smooth); font-size: 0.85rem; font-weight: 300;">Gallery</a></p>
+                <p><a href="offers.html" style="color: rgba(255,255,255,0.6); text-decoration: none; transition: var(--transition-smooth); font-size: 0.85rem; font-weight: 300;">Offers</a></p>
+                <p><a href="recommendations.html" style="color: rgba(255,255,255,0.6); text-decoration: none; transition: var(--transition-smooth); font-size: 0.85rem; font-weight: 300;">Nearby Guide</a></p>
+            </div>
+            <div>
+                <h4 style="font-family: var(--font-sans); text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.15em; color: var(--color-white); margin-bottom: 1.5rem; font-weight: 600;">Contact</h4>
+                <p style="color: rgba(255,255,255,0.6); font-size: 0.85rem; font-weight: 300; margin-bottom: 0.5rem;">MG Road, Bengaluru, India</p>
+                <p style="color: rgba(255,255,255,0.6); font-size: 0.85rem; font-weight: 300; margin-bottom: 0.5rem;">+91 98765 43210</p>
+                <p style="color: rgba(255,255,255,0.6); font-size: 0.85rem; font-weight: 300; margin-bottom: 0.5rem;">novacrest@gmail.com</p>
+            </div>
+        </div>
+    </footer>
+
+    <div id="alertContainer"></div>
+    <script src="/static/js/script.js"></script>
+</body>
+</html>

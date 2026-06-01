@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Confirmation | Novacrest</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body id="confirmationPage">
+    <header>
+        <div class="container">
+            <nav>
+                <a href="/" class="logo">NOVA<span>CREST</span></a>
+                <div class="nav-links">
+                    <a href="dashboard.html">Dashboard</a>
+                    <button onclick="logout()" id="logoutBtn" class="btn btn-danger" style="display:none;">Logout</button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main class="page-shell">
+        <section class="confirmation-section">
+            <div class="container">
+                <div class="confirmation-card">
+                    <h1>Booking Confirmed</h1>
+                    <p>Your reservation is ready. Keep this confirmation and QR code for check-in.</p>
+                    <div id="confirmationDetails" class="confirmation-details">Loading confirmation...</div>
+                    <img id="bookingQr" class="qr-code" alt="Booking QR code">
+                    <div class="confirmation-actions">
+                        <button class="btn btn-primary" onclick="downloadInvoiceFromConfirmation()">Download Invoice</button>
+                        <a class="btn btn-accent" href="dashboard.html">Go To Dashboard</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="alertContainer"></div>
+    <script src="/static/js/script.js"></script>
+</body>
+</html>

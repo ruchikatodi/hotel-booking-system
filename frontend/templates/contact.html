@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Explore Nearby Guide | Novacrest</title>
+    <title>Contact Us | Novacrest</title>
     <link rel="stylesheet" href="/static/css/styles.css">
 </head>
-<body id="recommendationsPage">
+<body>
     <!-- Transparent Header -->
     <header id="mainHeader">
         <div class="container">
@@ -34,21 +34,63 @@
         <!-- Page Hero -->
         <section class="page-hero contact-hero">
             <div class="container">
-                <span class="eyebrow" style="color: var(--color-sand);">Curated Local Guide</span>
-                <h1>Explore Nearby</h1>
-                <p>Discover handpicked destinations, historical architecture, and cultural hotspots near Novacrest resort.</p>
+                <span class="eyebrow" style="color: var(--color-sand);">Connect With Us</span>
+                <h1>Contact Novacrest</h1>
+                <p>Inquiries, bespoke requests, airport transit arrangements, or event booking support.</p>
             </div>
         </section>
 
-        <!-- Recommendations Grid -->
+        <!-- Split Grid Details & Form -->
         <section style="background-color: var(--color-bg); padding-bottom: 8rem;">
-            <div class="container">
-                <div class="recommendations-grid" id="recommendationsGrid">
-                    <!-- Populated dynamically by script.js -->
-                    <p style="text-align: center; color: var(--color-gold); font-family: var(--font-serif); font-size: 1.2rem; width: 100%; grid-column: 1/-1;">
-                        Loading curated locations...
+            <div class="container contact-layout">
+                
+                <div class="offer-card" style="padding: 3rem; background-color: var(--color-white);">
+                    <span class="eyebrow">Sanctuary Details</span>
+                    <h2 style="font-family: var(--font-serif); font-weight: 400; margin-top: 0.5rem; margin-bottom: 1.5rem; font-size: 1.8rem;">Resort Inquiries</h2>
+                    
+                    <p style="font-size: 0.95rem; margin-bottom: 0.8rem; font-weight: 300;">
+                        <strong>Reception Desk:</strong><br>
+                        +91 98765 43210
                     </p>
+                    <p style="font-size: 0.95rem; margin-bottom: 0.8rem; font-weight: 300;">
+                        <strong>Email Enquiries:</strong><br>
+                        novacrest@gmail.com
+                    </p>
+                    <p style="font-size: 0.95rem; margin-bottom: 2rem; font-weight: 300;">
+                        <strong>Location Address:</strong><br>
+                        MG Road, Bengaluru, Karnataka, India
+                    </p>
+                    
+                    <iframe title="Novacrest map location" src="https://www.google.com/maps?q=MG%20Road%20Bengaluru&output=embed" loading="lazy" style="width: 100%; height: 260px; border: 1px solid var(--color-sand); border-radius: var(--border-radius);"></iframe>
                 </div>
+                
+                <form class="offer-card" style="padding: 3rem; background-color: var(--color-white);" onsubmit="event.preventDefault(); submitContactForm();">
+                    <span class="eyebrow">Message Form</span>
+                    <h2 style="font-family: var(--font-serif); font-weight: 400; margin-top: 0.5rem; margin-bottom: 2rem; font-size: 1.8rem;">Send A Message</h2>
+                    
+                    <div class="form-group">
+                        <label>Your Name</label>
+                        <input id="contactName" type="text" required placeholder="e.g. Elizabeth Warren">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        <input id="contactEmail" type="email" required placeholder="e.g. elizabeth@example.com">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Subject</label>
+                        <input id="contactSubject" type="text" required placeholder="e.g. Special anniversary arrival details">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Message Content</label>
+                        <textarea id="contactMessage" rows="5" required placeholder="Detail your inquiries or requests here..."></textarea>
+                    </div>
+                    
+                    <button class="btn btn-primary full-width" type="submit">Send Message</button>
+                </form>
+                
             </div>
         </section>
     </main>

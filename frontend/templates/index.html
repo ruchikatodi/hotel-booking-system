@@ -3,132 +3,368 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Novacrest Hotel | Luxury Stay</title>
+    <title>Novacrest Hotel | Premium Luxury Resort & Sanctuary</title>
     <link rel="stylesheet" href="/static/css/styles.css">
 </head>
 <body>
-    <!-- Header -->
-    <header>
+    <!-- Transparent Header Nav -->
+    <header id="mainHeader">
         <div class="container">
             <nav>
                 <a href="index.html" class="logo">NOVA<span>CREST</span></a>
-                <div class="nav-links">
+                <div class="nav-links" id="navLinks">
                     <a href="index.html">Home</a>
-                    <a href="#rooms">Rooms</a>
-                    <a href="recommendations.html">Explore Nearby</a>
-                    <span id="userInfo" style="color: #c9a96e; font-weight: 600;"></span>
-                    <a href="login.html" class="btn btn-outline">Sign In</a>
-                    <a href="register.html" class="btn btn-accent">Book Now</a>
-                    <a href="dashboard.html" id="dashboardBtn" class="btn btn-accent" style="display: none;">Dashboard</a>
-                    <button id="logoutBtn" class="btn btn-danger" style="display: none;" onclick="logout()">Logout</button>
+                    <a href="index.html#rooms">Suites</a>
+                    <a href="gallery.html">Gallery</a>
+                    <a href="offers.html">Offers</a>
+                    <a href="about.html">About</a>
+                    <a href="contact.html">Contact</a>
+                    <a href="recommendations.html">Nearby</a>
+                    <span id="userInfo" style="color: var(--color-gold); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 600;"></span>
+                    <a href="login.html" id="signInLink" class="btn btn-outline">Sign In</a>
+                    <a href="dashboard.html" id="dashboardBtn" class="btn btn-accent" style="display: none; padding: 0.6rem 1.4rem;">Dashboard</a>
+                    <button id="logoutBtn" class="btn btn-danger" style="display: none; padding: 0.6rem 1.4rem;" onclick="logout()">Logout</button>
                 </div>
-                <div class="mobile-toggle">☰</div>
+                <div class="mobile-toggle" id="mobileMenuToggle">☰</div>
             </nav>
         </div>
     </header>
 
-    <!-- Hero -->
+    <!-- Cinematic Hero Section -->
     <section class="hero">
+        <div class="hero-bg"></div>
         <div class="hero-overlay"></div>
-        <div class="hero-content container">
-            <h1 class="hero-title">Experience Pure Luxury</h1>
-            <p class="hero-subtitle">Sanctuary for the senses. Escape to Novacrest.</p>
-            
-            <!-- Search widget -->
-            <div class="search-widget">
-                <div class="search-field">
-                    <label>Check In</label>
-                    <input type="date" id="checkIn" class="date-input" required>
-                </div>
-                
-                <div class="search-field">
-                    <label>Check Out</label>
-                    <input type="date" id="checkOut" class="date-input" required>
-                </div>
-                
-                <div class="search-field">
-                    <label>Guests</label>
-                    <div class="guest-counter">
-                        <button type="button" class="counter-btn" id="decreaseGuests">−</button>
-                        <span class="guest-count" id="guestCount">2</span>
-                        <button type="button" class="counter-btn" id="increaseGuests">+</button>
-                    </div>
-                </div>
-                
-                <!-- CRITICAL: This is the search button - ID MUST match JS -->
-                <button type="button" class="btn btn-search" id="searchBtn">
-                    <span>Search Rooms</span>
-                </button>
+        <div class="hero-content">
+            <span class="eyebrow" style="color: var(--color-sand); margin-bottom: 1.5rem;">The Art of Pure Escape</span>
+            <h1 class="hero-title">Experience Tranquility Beyond Expectations</h1>
+            <p class="hero-subtitle">A sanctuary for the senses. Nestled in the heart of Bengaluru.</p>
+            <div class="hero-actions">
+                <a href="#rooms" class="btn btn-accent">Reserve Your Stay</a>
+                <a href="gallery.html" class="btn btn-outline">Explore Suites</a>
             </div>
         </div>
         
-        <!-- Scroll indicator -->
-        <div class="scroll-indicator">
+        <!-- Elegant Scroll Down Indicator -->
+        <a href="#aboutSection" class="scroll-indicator">
             <span>Scroll to explore</span>
-            <div class="scroll-arrow">↓</div>
+        </a>
+    </section>
+
+    <!-- Floating Booking Widget -->
+    <div class="booking-widget-container container">
+        <div class="search-widget">
+            <div class="search-field">
+                <label>Check In</label>
+                <input type="date" id="checkIn" class="date-input" required>
+            </div>
+            
+            <div class="search-field">
+                <label>Check Out</label>
+                <input type="date" id="checkOut" class="date-input" required>
+            </div>
+            
+            <div class="search-field">
+                <label>Guests</label>
+                <div class="guest-counter">
+                    <button type="button" class="counter-btn" id="decreaseGuests">−</button>
+                    <span class="guest-count" id="guestCount">2</span>
+                    <button type="button" class="counter-btn" id="increaseGuests">+</button>
+                </div>
+            </div>
+            
+            <button type="button" class="btn-search" id="searchBtn">
+                <span>Search Rooms</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Editorial Storytelling Section -->
+    <section class="intro-section" id="aboutSection">
+        <div class="container intro-layout">
+            <div>
+                <span class="eyebrow">Luxury Reimagined</span>
+                <h2 class="section-title left">A calmer way to arrive</h2>
+                <p>Nestled amidst tranquil gardens, Novacrest represents a refined approach to luxury hospitality. Designed as an exclusive city retreat, our resort balances private residences, sophisticated dining, and wellness spaces with intuitive guest support.</p>
+                <p>Whether visiting for business, extended stays, or romantic celebrations, our purpose is to make every arrival smoother, every moment calmer, and every day deeply personal.</p>
+                
+                <div class="highlight-grid">
+                    <div class="highlight-item">
+                        <strong>Silent Retreatment</strong>
+                        <span>Double-glazed soundproof suites</span>
+                    </div>
+                    <div class="highlight-item">
+                        <strong>Garden Leisure</strong>
+                        <span>Open-air azure deck and gardens</span>
+                    </div>
+                    <div class="highlight-item">
+                        <strong>Crest Dining Room</strong>
+                        <span>Fine dining by Michelin-trained chefs</span>
+                    </div>
+                    <div class="highlight-item">
+                        <strong>Curated Transfers</strong>
+                        <span>Private luxury airport collections</span>
+                    </div>
+                </div>
+                <a href="#rooms" class="btn btn-primary" style="margin-top: 1.5rem;">Reserve Now</a>
+            </div>
+            <div class="intro-media">
+                <img src="https://images.unsplash.com/photo-1540541338287-41700207dee6?auto=format&fit=crop&w=1200&q=85" alt="Novacrest Luxury Courtyard Pavilion">
+            </div>
         </div>
     </section>
 
-    <!-- Filters -->
-    <section class="filters" id="rooms">
-        <div class="container filter-container">
-            <div class="section-title" style="font-size: 1.5rem; margin:0; text-align: left;">Our Collection</div>
-            <div class="filter-group">
-                <select id="categoryFilter">
-                    <option value="all">All Categories</option>
-                    <option value="standard">Standard</option>
-                    <option value="deluxe">Deluxe</option>
-                    <option value="suite">Suites</option>
-                </select>
-                <label class="toggle-switch">
-                    <input type="checkbox" id="availabilityFilter">
-                    <span>Available only</span>
-                </label>
+    <!-- Editorial Philosophy Quote -->
+    <section class="philosophy-banner" style="padding: 0; border: none;">
+        <div class="container" style="background-color: var(--color-white); border-top: 1px solid var(--color-sand); border-bottom: 1px solid var(--color-sand); padding: 7rem 2.5rem; width: 100%; max-width: 100%;">
+            <blockquote class="philosophy-text">
+                "True luxury is not about excess, but the quiet harmony of space, silence, and time."
+            </blockquote>
+            <span class="philosophy-author">The Novacrest Philosophy</span>
+        </div>
+    </section>
+
+    <!-- Rooms & Collection Filter -->
+    <section class="filters" id="rooms" style="background-color: var(--color-bg); padding-bottom: 0;">
+        <div class="container filters-bar">
+            <div class="filter-container">
+                <h2 class="section-title left" style="margin: 0; font-size: 1.8rem; font-weight: 400;">Suites & Residences</h2>
+                <div class="filter-group">
+                    <select id="categoryFilter">
+                        <option value="all">All Categories</option>
+                        <option value="standard">Standard Rooms</option>
+                        <option value="deluxe">Deluxe Rooms</option>
+                        <option value="suite">Suites & Penthouses</option>
+                    </select>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="availabilityFilter" style="margin-right: 0.5rem; accent-color: var(--color-gold);">
+                        <span>Available only</span>
+                    </label>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- Rooms Grid -->
-    <section class="rooms-section">
+    <section class="rooms-section" style="padding-top: 2rem;">
         <div class="container">
             <div class="rooms-grid" id="roomsGrid">
-                <!-- Populated by JS -->
-                <p style="text-align: center; padding: 2rem; color: #b8955a; grid-column: 1/-1;">
-                    Use the search widget above to find available rooms
+                <!-- Dynamically Populated by JS -->
+                <p style="text-align: center; padding: 2rem; color: var(--color-gold); grid-column: 1/-1; font-family: var(--font-serif); font-size: 1.25rem;">
+                    Checking available luxury chambers...
                 </p>
             </div>
         </div>
     </section>
 
-    <!-- Recommendations Section -->
-    <section class="recommendations-section">
+    <!-- Experiential Resort Amenities Section -->
+    <section class="experiences-section">
         <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">Explore Nearby</h2>
-                <p class="section-subtitle">Discover the best places to visit near Novacrest Hotel</p>
+            <div style="text-align: center; margin-bottom: 5rem;">
+                <span class="eyebrow">Curated Pleasures</span>
+                <h2 class="section-title">Resort Experiences</h2>
+                <p class="section-subtitle">Mindfully crafted details designed to deepen your sense of wellness, exploration, and discovery.</p>
             </div>
-            <div class="recommendations-grid" id="recommendationsGrid">
-                <!-- Populated by JS -->
-            </div>
-            <div style="text-align: center; margin-top: 3rem;">
-                <a href="recommendations.html" class="btn btn-accent">View All Recommendations</a>
+            
+            <div class="experiences-grid">
+                <article class="experience-card">
+                    <div class="experience-bg" style="background-image: url('https://images.unsplash.com/photo-1572331165267-854da2b10ccc?auto=format&fit=crop&w=900&q=85')"></div>
+                    <div class="experience-overlay"></div>
+                    <div class="experience-content">
+                        <span class="eyebrow" style="color: var(--color-bg);">Wellness</span>
+                        <h3>The Azure Infinity Pool</h3>
+                        <p>Recline on floating daybeds overlooking lush tropical courtyard gardens.</p>
+                    </div>
+                </article>
+                
+                <article class="experience-card">
+                    <div class="experience-bg" style="background-image: url('https://images.unsplash.com/photo-1552566626-52f8b828add9?auto=format&fit=crop&w=900&q=85')"></div>
+                    <div class="experience-overlay"></div>
+                    <div class="experience-content">
+                        <span class="eyebrow" style="color: var(--color-bg);">Gastronomy</span>
+                        <h3>Crest Fine Dining Room</h3>
+                        <p>Savor organic seasonal menus prepared by award-winning chefs.</p>
+                    </div>
+                </article>
+                
+                <article class="experience-card">
+                    <div class="experience-bg" style="background-image: url('https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=900&q=85')"></div>
+                    <div class="experience-overlay"></div>
+                    <div class="experience-content">
+                        <span class="eyebrow" style="color: var(--color-bg);">Restoration</span>
+                        <h3>The Wellness Spa</h3>
+                        <p>Traditional ayurvedic wellness rituals combined with modern skin therapies.</p>
+                    </div>
+                </article>
+                
+                <article class="experience-card">
+                    <div class="experience-bg" style="background-image: url('https://images.unsplash.com/photo-1445019980597-93fa8acb246c?auto=format&fit=crop&w=900&q=85')"></div>
+                    <div class="experience-overlay"></div>
+                    <div class="experience-content">
+                        <span class="eyebrow" style="color: var(--color-bg);">Serenity</span>
+                        <h3>The Courtyard Pavilions</h3>
+                        <p>Quiet corners and lush, manicured lawns designed for afternoon tea and quiet reflection.</p>
+                    </div>
+                </article>
             </div>
         </div>
     </section>
 
-    <footer style="background: #1a1a1a; color: white; padding: 4rem 0; text-align: center;">
+    <!-- Special Offers Section -->
+    <section class="offers-section" style="border-top: 1px solid var(--color-sand);">
         <div class="container">
-            <div class="logo" style="justify-content: center; margin-bottom: 2rem; color: white;">NOVA<span>CREST</span></div>
-            <p style="opacity: 0.6;">&copy; 2025 Novacrest Hotels. All rights reserved.</p>
-            <p style="opacity: 0.6;">Contact: novacrest@gmail.com</p>
+            <div style="text-align: center; margin-bottom: 5rem;">
+                <span class="eyebrow">Exclusive Stays</span>
+                <h2 class="section-title">Special Packages</h2>
+                <p class="section-subtitle">Mindfully curated itineraries designed for quick escapes, corporate productivity, and celebrations.</p>
+            </div>
+            
+            <div class="offers-grid">
+                <article class="offer-card">
+                    <div>
+                        <span class="eyebrow">15% OFF</span>
+                        <h3>Weekend Escape</h3>
+                        <p>A relaxing weekend stay in our standard or deluxe chambers with full amenities included.</p>
+                        <ul class="offer-inclusions">
+                            <li>Complimentary breakfast in the Crest room</li>
+                            <li>Early check-in (11:00 AM)</li>
+                            <li>15% off spa therapies</li>
+                        </ul>
+                    </div>
+                    <a href="offers.html" class="btn btn-primary full-width">Book Package</a>
+                </article>
+                
+                <article class="offer-card">
+                    <div>
+                        <span class="eyebrow">ROMANTIC</span>
+                        <h3>Honeymoon Package</h3>
+                        <p>Indulge in a premium romantic escape within our signature canopy king suite.</p>
+                        <ul class="offer-inclusions">
+                            <li>Chilled champagne upon arrival</li>
+                            <li>Romantic bed setup & fresh roses</li>
+                            <li>Candlelit pool deck dinner</li>
+                        </ul>
+                    </div>
+                    <a href="offers.html" class="btn btn-primary full-width">Book Package</a>
+                </article>
+                
+                <article class="offer-card">
+                    <div>
+                        <span class="eyebrow">BUSINESS</span>
+                        <h3>Corporate Plan</h3>
+                        <p>Stay productive with chauffeur support, fast Wi-Fi, and priority billing options.</p>
+                        <ul class="offer-inclusions">
+                            <li>Premium workspace desk and chairs</li>
+                            <li>Included airport pickup support</li>
+                            <li>Executive Lounge beverage access</li>
+                        </ul>
+                    </div>
+                    <a href="offers.html" class="btn btn-primary full-width">Book Package</a>
+                </article>
+            </div>
+            
+            <div style="text-align: center; margin-top: 3.5rem;">
+                <a href="offers.html" class="btn btn-outline-dark">View All Packages</a>
+            </div>
+        </div>
+    </section>
 
+    <!-- Magazine-style Testimonials -->
+    <section class="testimonials-section">
+        <div class="container">
+            <div style="text-align: center; margin-bottom: 5rem;">
+                <span class="eyebrow">Verified Reviews</span>
+                <h2 class="section-title">Guest Chronicles</h2>
+            </div>
+            
+            <div class="testimonials-grid">
+                <article class="review-card">
+                    <div class="stars">★★★★★</div>
+                    <p>"A breathtaking oasis. The quietness of the suites and the meticulous detail of the garden pool made our stay feel like a remote estate."</p>
+                    <strong>Harper's Bazaar Travel</strong>
+                </article>
+                
+                <article class="review-card">
+                    <div class="stars">★★★★★</div>
+                    <p>"The family suites are spectacular. Attentive staff, magnificent breakfast buffets, and prompt transfers made our arrival effortless."</p>
+                    <strong>Elite Traveler Guide</strong>
+                </article>
+                
+                <article class="review-card">
+                    <div class="stars">★★★★★</div>
+                    <p>"Superb business comfort. High-speed network, reliable invoice support, and excellent room service after long working days in the city."</p>
+                    <strong>The Financial Edit</strong>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- Curated Guidebook Recommendations -->
+    <section class="recommendations-section">
+        <div class="container">
+            <div style="text-align: center; margin-bottom: 5rem;">
+                <span class="eyebrow">Curated Guide</span>
+                <h2 class="section-title">Explore Nearby</h2>
+                <p class="section-subtitle">Local attractions and handpicked experiences surrounding our sanctuary.</p>
+            </div>
+            
+            <div class="recommendations-grid" id="recommendationsGrid">
+                <!-- Dynamically Populated by JS -->
+            </div>
+            
+            <div style="text-align: center; margin-top: 4rem;">
+                <a href="recommendations.html" class="btn btn-outline-dark">View Curated Guidebook</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Emotional CTA Section -->
+    <section class="luxury-cta">
+        <div class="cta-bg"></div>
+        <div class="cta-overlay"></div>
+        <div class="cta-content">
+            <span class="eyebrow" style="color: var(--color-bg); margin-bottom: 1.5rem;">Your Sanctuary Awaits</span>
+            <h2>Your unforgettable stay begins here</h2>
+            <p>Find your balance of peace, silence, and service in Bengaluru's finest resort.</p>
+            <a href="#rooms" class="btn btn-outline">Reserve Your Stay</a>
+        </div>
+    </section>
+
+    <!-- Luxury Footer -->
+    <footer>
+        <div class="container" style="display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 4rem; text-align: left;">
+            <div>
+                <a href="index.html" class="logo" style="color: var(--color-white); margin-bottom: 1.5rem; display: block;">NOVA<span>CREST</span></a>
+                <p style="max-width: 340px; font-weight: 300; line-height: 1.8; margin-bottom: 2rem; color: rgba(255,255,255,0.6);">A private sanctuary of absolute silence, botanical beauty, and bespoke luxury services in Bengaluru.</p>
+                <p style="color: rgba(255,255,255,0.4); font-size: 0.75rem;">&copy; 2026 Novacrest Hotel Group. All rights reserved.</p>
+            </div>
+            <div>
+                <h4 style="font-family: var(--font-sans); text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.15em; color: var(--color-white); margin-bottom: 1.5rem; font-weight: 600;">Explore</h4>
+                <p><a href="index.html#rooms" style="color: rgba(255,255,255,0.6); text-decoration: none; transition: var(--transition-smooth); font-size: 0.85rem; font-weight: 300;">Suites</a></p>
+                <p><a href="gallery.html" style="color: rgba(255,255,255,0.6); text-decoration: none; transition: var(--transition-smooth); font-size: 0.85rem; font-weight: 300;">Gallery</a></p>
+                <p><a href="offers.html" style="color: rgba(255,255,255,0.6); text-decoration: none; transition: var(--transition-smooth); font-size: 0.85rem; font-weight: 300;">Offers</a></p>
+                <p><a href="recommendations.html" style="color: rgba(255,255,255,0.6); text-decoration: none; transition: var(--transition-smooth); font-size: 0.85rem; font-weight: 300;">Nearby Guide</a></p>
+            </div>
+            <div>
+                <h4 style="font-family: var(--font-sans); text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.15em; color: var(--color-white); margin-bottom: 1.5rem; font-weight: 600;">Contact</h4>
+                <p style="color: rgba(255,255,255,0.6); font-size: 0.85rem; font-weight: 300; margin-bottom: 0.5rem;">MG Road, Bengaluru, India</p>
+                <p style="color: rgba(255,255,255,0.6); font-size: 0.85rem; font-weight: 300; margin-bottom: 0.5rem;">+91 98765 43210</p>
+                <p style="color: rgba(255,255,255,0.6); font-size: 0.85rem; font-weight: 300; margin-bottom: 0.5rem;">novacrest@gmail.com</p>
+            </div>
         </div>
     </footer>
+
+    <!-- Mobile Book Now Bar -->
+    <div class="mobile-book-now-bar" style="display: none;" id="mobileBookNowBar">
+        <div class="price">
+            Chambers From<br>
+            <strong>₹800</strong>
+        </div>
+        <a href="#rooms" class="btn btn-accent" style="padding: 0.6rem 1.4rem;">Book Now</a>
+    </div>
 
     <!-- Alert Container -->
     <div id="alertContainer"></div>
 
-    <!-- Load JavaScript -->
     <script src="/static/js/script.js"></script>
 </body>
 </html>

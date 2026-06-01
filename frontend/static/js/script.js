@@ -168,11 +168,33 @@ document.addEventListener('DOMContentLoaded', function() {
         loadAllRecommendations();
     }
 
-
-    if (window.location.pathname.includes('payment.html')) {
-        console.log('💳 Payment page detected');
-        loadPaymentDetails();
+    // ============================================
+    // HEADER SCROLL & MOBILE BOOK NOW BAR
+    // ============================================
+    const header = document.getElementById('mainHeader');
+    const bookBar = document.getElementById('mobileBookNowBar');
+    
+    if (header && window.scrollY > 50) {
+        header.classList.add('scrolled');
     }
+    
+    window.addEventListener('scroll', () => {
+        if (header) {
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        }
+        
+        if (bookBar) {
+            if (window.scrollY > 400 && window.innerWidth <= 768) {
+                bookBar.style.display = 'flex';
+            } else {
+                bookBar.style.display = 'none';
+            }
+        }
+    });
 
     console.log('✅ Initialization complete!');
 });
@@ -257,13 +279,19 @@ async function login() {
         if (response.ok) {
             saveUserToStorage(data.user, data.access_token);
 
-        setTimeout(() => {
-            if (data.user.role === "admin") {
-                window.location.href = "dashboard-admin.html";
-            } else {
-                window.location.href = "dashboard.html";
-            }
-        }, 1500);
+            setTimeout(() => {
+                if (data.user.role === "admin") {
+                    window.location.href = "dashboard-admin.html";
+                } else {
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const redirect = urlParams.get('redirect');
+                    if (redirect) {
+                        window.location.href = redirect;
+                    } else {
+                        window.location.href = "dashboard.html";
+                    }
+                }
+            }, 1500);
         } else {
             showAlert(data.message || 'Invalid credentials', 'error');
         }
@@ -426,6 +454,18 @@ async function searchRooms() {
     }
 }
 
+function getRoomImageUrl(name) {
+    const images = {
+        'Standard Room': 'https://images.unsplash.com/photo-1591088398332-8a7791972843?auto=format&fit=crop&w=800&q=80',
+        'Deluxe Room': 'https://images.unsplash.com/photo-1611892440504-42a792e24d32?auto=format&fit=crop&w=800&q=80',
+        'Super Deluxe Room': 'https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=800&q=80',
+        'Executive Room': 'https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=800&q=80',
+        'Family Suite': 'https://images.unsplash.com/photo-1598928506311-c55ded91a20c?auto=format&fit=crop&w=800&q=80',
+        'Honeymoon Suite': 'https://images.unsplash.com/photo-1566665797739-1674de7a421a?auto=format&fit=crop&w=800&q=80'
+    };
+    return images[name] || 'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=800&q=80';
+}
+
 function displaySearchResults(results) {
     const container = document.getElementById('roomsGrid');
     
@@ -438,50 +478,53 @@ function displaySearchResults(results) {
 
     if (results.length === 0) {
         container.innerHTML = `
-            <div style="grid-column: 1/-1; text-align: center; padding: 4rem;">
-                <h3 style="color: #666; margin-bottom: 1rem;">No rooms available</h3>
-                <p style="color: #999;">Try different dates or fewer guests</p>
+            <div class="empty-state" style="grid-column: 1/-1; text-align: center; padding: 4rem;">
+                <h3 style="color: var(--color-gold); font-family: var(--font-serif); margin-bottom: 1rem;">No suites available</h3>
+                <p style="color: #666;">Try different dates or fewer guests.</p>
             </div>
         `;
         return;
     }
 
-    container.innerHTML = results.map(cat => `
-        <div class="room-card">
-            <div class="room-image" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
-                ${cat.name}
-            </div>
-            <div class="room-info">
-                <h3>${cat.name}</h3>
-                <p style="color: #666; margin-bottom: 1rem;">${cat.description || 'Luxurious and comfortable stay'}</p>
-                
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-bottom: 1rem;">
-                    <p><strong>📍 Available:</strong> ${cat.available_count}</p>
-                    <p><strong>👥 Capacity:</strong> ${cat.capacity}</p>
-                    <p><strong>🌙 Nights:</strong> ${cat.nights}</p>
-                    <p><strong>💰 Per Night:</strong> ₹${cat.base_price.toFixed(2)}</p>
+    container.innerHTML = results.map(cat => {
+        const imageUrl = getRoomImageUrl(cat.name);
+        return `
+            <div class="room-card">
+                <div class="room-image-wrapper">
+                    <div class="room-image" style="background-image: url('${imageUrl}');"></div>
+                    <div class="room-price-badge">From <span>₹${cat.base_price.toFixed(2)}</span></div>
                 </div>
-                
-                <p style="font-size: 1.3rem; font-weight: bold; color: #c9a96e; margin-bottom: 1rem;">
-                    Total: ₹${cat.total_price.toFixed(2)}
-                </p>
-                
-                <p style="font-size: 0.9rem; color: #666; margin-bottom: 1rem;">
-                    <strong>✨ Amenities:</strong><br>
-                    ${cat.amenities.join(' • ')}
-                </p>
-                
-                ${currentUser 
-                    ? `<button class="btn btn-primary full-width" onclick="selectRoomForBooking('${cat.category_id}', '${cat.name}', ${cat.total_price}, document.getElementById('checkIn').value, document.getElementById('checkOut').value)">
-                        Book Now - ₹${cat.total_price.toFixed(2)}
-                       </button>`
-                    : `<button class="btn btn-primary full-width" onclick="showAlert('Please login to book rooms', 'info'); setTimeout(() => window.location.href='login.html', 2000)">
-                        Login to Book
-                       </button>`
-                }
+                <div class="room-info">
+                    <h3>${cat.name}</h3>
+                    <p class="room-desc">${cat.description || 'A private sanctuary of absolute comfort and design.'}</p>
+                    
+                    <div class="room-details">
+                        <span class="room-detail-item">👥 Capacity: <strong>${cat.capacity} Guests</strong></span>
+                        <span class="room-detail-item">🌙 Nights: <strong>${cat.nights}</strong></span>
+                        <span class="room-detail-item">📍 Chambers: <strong>${cat.available_count} Left</strong></span>
+                    </div>
+                    
+                    <p style="font-family: var(--font-serif); font-size: 1.35rem; color: var(--color-gold); margin-bottom: 1.5rem;">
+                        Total for stay: ₹${cat.total_price.toFixed(2)}
+                    </p>
+                    
+                    <p style="font-size: 0.82rem; color: #666; margin-bottom: 1.8rem; line-height: 1.6;">
+                        <strong>Amenities Included:</strong><br>
+                        ${cat.amenities.join(' • ')}
+                    </p>
+                    
+                    ${currentUser 
+                        ? `<button class="btn btn-primary full-width" onclick="selectRoomForBooking('${cat.category_id}', '${cat.name}', ${cat.total_price}, document.getElementById('checkIn').value, document.getElementById('checkOut').value)">
+                            Book Suite
+                           </button>`
+                        : `<button class="btn btn-primary full-width" onclick="showAlert('Please login to book rooms', 'info'); setTimeout(() => window.location.href='login.html', 1500)">
+                            Login to Book
+                           </button>`
+                    }
+                </div>
             </div>
-        </div>
-    `).join('');
+        `;
+    }).join('');
 }
 
 async function loadAllRooms() {
@@ -504,26 +547,31 @@ function displayAllRooms(categories) {
     const container = document.getElementById('roomsGrid');
     if (!container) return;
 
-    container.innerHTML = categories.map(cat => `
-        <div class="room-card">
-            <div class="room-image" style="background: linear-gradient(135deg, #b8955a 0%, #c9a96e 100%);">
-                ${cat.name}
+    container.innerHTML = categories.map(cat => {
+        const imageUrl = getRoomImageUrl(cat.name);
+        return `
+            <div class="room-card">
+                <div class="room-image-wrapper">
+                    <div class="room-image" style="background-image: url('${imageUrl}');"></div>
+                    <div class="room-price-badge">From <span>₹${cat.base_price}/night</span></div>
+                </div>
+                <div class="room-info">
+                    <h3>${cat.name}</h3>
+                    <p class="room-desc">${cat.description}</p>
+                    <div class="room-details" style="border-bottom: none; margin-bottom: 0.5rem;">
+                        <span class="room-detail-item">👥 Capacity: <strong>Max ${cat.capacity} Guests</strong></span>
+                    </div>
+                    <p style="font-size: 0.82rem; color: #666; margin-bottom: 1.8rem; line-height: 1.6;">
+                        <strong>Amenities Included:</strong><br>
+                        ${cat.amenities.join(' • ')}
+                    </p>
+                    <button class="btn btn-primary full-width" onclick="showAlert('Please use the search widget above to check availability', 'info'); window.scrollTo({top: 0, behavior: 'smooth'})">
+                        Check Availability
+                    </button>
+                </div>
             </div>
-            <div class="room-info">
-                <h3>${cat.name}</h3>
-                <p style="color: #666;">${cat.description}</p>
-                <p><strong>👥 Capacity:</strong> ${cat.capacity} guests</p>
-                <p><strong>💰 Price:</strong> ₹${cat.base_price}/night</p>
-                <p style="font-size: 0.9rem; color: #666;">
-                    <strong>✨ Amenities:</strong><br>
-                    ${cat.amenities.join(' • ')}
-                </p>
-                <button class="btn btn-primary full-width" onclick="showAlert('Please use the search widget above to check availability', 'info'); window.scrollTo({top: 0, behavior: 'smooth'})">
-                    Check Availability
-                </button>
-            </div>
-        </div>
-    `).join('');
+        `;
+    }).join('');
 }
 
 function selectRoomForBooking(categoryId, categoryName, totalPrice, checkIn, checkOut) {
@@ -824,78 +872,157 @@ async function loadAdminDashboard() {
         return;
     }
 
-    console.log('🔐 Loading admin dashboard');
+    console.log('🔐 Loading admin dashboard (simplified)');
+    loadAdminBookings();
+    loadAdminRooms();
+}
+
+async function loadAdminBookings() {
+    const table = document.getElementById('adminBookingsTable');
+    if (!table) return;
+
+    const status = document.getElementById('adminBookingStatus')?.value || '';
+    const url = `${API_BASE}/admin/bookings${status ? `?status=${status}` : ''}`;
 
     try {
-        const response = await fetch(`${API_BASE}/admin/dashboard`, {
+        const response = await fetch(url, {
             headers: { 'Authorization': `Bearer ${currentToken}` }
         });
-
         const data = await response.json();
-        console.log('ADMIN DASHBOARD', data);
+        const bookings = data.bookings || [];
 
-        if (response.ok) {
-            displayAdminStats(data);
-        } else {
-            showAlert("Failed to load admin analytics", "error");
-        }
+        table.innerHTML = bookings.length ? bookings.map(b => `
+            <tr>
+                <td>#${b.booking_id}</td>
+                <td>User ID: ${b.user_id}</td>
+                <td>Room ${b.room_id}</td>
+                <td>${b.check_in_date} to ${b.check_out_date}</td>
+                <td>₹${Number(b.total_amount || 0).toFixed(2)}</td>
+                <td><span class="badge badge-${getBadgeClass(b.status)}">${b.status}</span></td>
+                <td class="table-actions">
+                    <button class="btn btn-success" onclick="updateAdminBookingStatus(${b.booking_id}, 'confirmed')">Confirm</button>
+                    <button class="btn btn-accent" onclick="updateAdminBookingStatus(${b.booking_id}, 'checked_in')">Check In</button>
+                    <button class="btn btn-accent" onclick="updateAdminBookingStatus(${b.booking_id}, 'checked_out')">Check Out</button>
+                    <button class="btn btn-danger" onclick="updateAdminBookingStatus(${b.booking_id}, 'cancelled')">Cancel</button>
+                </td>
+            </tr>
+        `).join('') : '<tr><td colspan="7">No bookings found.</td></tr>';
     } catch (error) {
-        console.error("Dashboard error:", error);
-        showAlert("Network error", "error");
+        console.error('Admin bookings error:', error);
+        table.innerHTML = '<tr><td colspan="7">Failed to load bookings.</td></tr>';
     }
 }
 
-// function displayAdminStats(data) {
-//     // const totalBookings = document.getElementById('totalBookings');
-//     // const totalRevenue = document.getElementById('totalRevenue');
-//     // const activeUsers = document.getElementById('activeUsers');
-    
-//     // if (totalBookings) totalBookings.textContent = data.total_bookings || 0;
-//     // if (totalRevenue) totalRevenue.textContent = `₹${parseFloat(data.total_revenue || 0).toFixed(2)}`;
-//     // if (activeUsers) activeUsers.textContent = data.total_users || 0;
-//     document.getElementById('totalBookings').textContent =
-//         data.revenue.total_bookings || 0;
+async function updateAdminBookingStatus(bookingId, status) {
+    try {
+        const response = await fetch(`${API_BASE}/admin/bookings/${bookingId}/status`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${currentToken}`
+            },
+            body: JSON.stringify({ status })
+        });
+        const data = await response.json();
 
-//     document.getElementById('totalRevenue').textContent =
-//         "₹" + parseFloat(data.revenue.total_revenue || 0).toFixed(2);
+        if (response.ok) {
+            showAlert('Booking status updated', 'success');
+            loadAdminDashboard();
+        } else {
+            showAlert(data.message || 'Unable to update booking', 'error');
+        }
+    } catch (error) {
+        console.error('Admin status error:', error);
+        showAlert('Network error while updating booking', 'error');
+    }
+}
 
-//     document.getElementById('totalUsers').textContent =
-//         data.customers.total_customers || 0;
+async function loadAdminRooms() {
+    const table = document.getElementById('adminRoomsTable');
+    if (!table) return;
 
-// }
+    try {
+        const response = await fetch(`${API_BASE}/admin/rooms`, {
+            headers: { 'Authorization': `Bearer ${currentToken}` }
+        });
+        const data = await response.json();
+        const rooms = data.rooms || [];
 
-function displayAdminStats(data) {
-    // Revenue Stats
-    document.getElementById('totalBookings').textContent =
-        data.revenue.total_bookings ?? 0;
+        table.innerHTML = rooms.length ? rooms.map(room => `
+            <tr>
+                <td>${room.room_number}</td>
+                <td>${room.category?.name || '-'}</td>
+                <td>${room.floor}</td>
+                <td>${room.status}</td>
+                <td>₹${Number(room.category?.base_price || 0).toFixed(2)}</td>
+                <td class="table-actions">
+                    <button class="btn btn-accent" onclick="editAdminRoom(${room.room_id}, '${room.status}', ${Number(room.category?.base_price || 0)})">Edit</button>
+                </td>
+            </tr>
+        `).join('') : '<tr><td colspan="6">No rooms found.</td></tr>';
+    } catch (error) {
+        console.error('Admin rooms error:', error);
+        table.innerHTML = '<tr><td colspan="6">Failed to load rooms.</td></tr>';
+    }
+}
 
-    document.getElementById('totalRevenue').textContent =
-        "₹" + parseFloat(data.revenue.total_revenue ?? 0).toFixed(2);
+async function addAdminRoom() {
+    const payload = {
+        room_number: document.getElementById('newRoomNumber').value.trim(),
+        category_id: parseInt(document.getElementById('newRoomCategory').value),
+        floor: parseInt(document.getElementById('newRoomFloor').value)
+    };
 
-    // Customer Stats
-    document.getElementById('totalUsers').textContent =
-        data.customers.total_customers ?? 0;
+    try {
+        const response = await fetch(`${API_BASE}/admin/rooms`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${currentToken}`
+            },
+            body: JSON.stringify(payload)
+        });
+        const data = await response.json();
 
-    // Occupancy Stats
-    document.getElementById('avgOccupancy').textContent =
-        parseFloat(data.occupancy.overall_occupancy_rate ?? 0).toFixed(1) + "%";
+        if (response.ok) {
+            showAlert('Room added successfully', 'success');
+            document.getElementById('newRoomNumber').value = '';
+            document.getElementById('newRoomCategory').value = '';
+            document.getElementById('newRoomFloor').value = '';
+            loadAdminRooms();
+        } else {
+            showAlert(data.message || 'Unable to add room', 'error');
+        }
+    } catch (error) {
+        console.error('Add room error:', error);
+        showAlert('Network error while adding room', 'error');
+    }
+}
 
-    document.getElementById('peakOccupancy').textContent =
-        parseFloat(data.occupancy.peak_occupancy ?? 0).toFixed(1) + "%";
+async function editAdminRoom(roomId, currentStatus, currentPrice) {
+    const status = prompt('Room status: available, occupied, maintenance, reserved', currentStatus) || currentStatus;
+    const price = prompt('Price per night for this room category', currentPrice) || currentPrice;
 
-    // Room Performance
-    const roomTable = document.getElementById('roomPerformanceTable');
-    if (roomTable) {
-        roomTable.innerHTML = data.room_performance.room_performance
-            .map(r => `
-                <tr>
-                    <td>${r.category_name}</td>
-                    <td>${r.total_bookings}</td>
-                    <td>₹${r.total_revenue.toFixed(2)}</td>
-                    <td>${r.total_nights_booked}</td>
-                    <td>₹${r.revenue_per_night.toFixed(2)}</td>
-                </tr>
-            `).join('');
+    try {
+        const response = await fetch(`${API_BASE}/admin/rooms/${roomId}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${currentToken}`
+            },
+            body: JSON.stringify({ status, base_price: Number(price) })
+        });
+        const data = await response.json();
+
+        if (response.ok) {
+            showAlert('Room updated successfully', 'success');
+            loadAdminRooms();
+        } else {
+            showAlert(data.message || 'Unable to update room', 'error');
+        }
+    } catch (error) {
+        console.error('Edit room error:', error);
+        showAlert('Network error while updating room', 'error');
     }
 }
 
@@ -924,7 +1051,7 @@ async function loadAllRecommendations() {
         const data = await response.json();
 
         if (response.ok) {
-            displayRecommendations(data.recommendations, 'allRecommendations');
+            displayRecommendations(data.recommendations, 'recommendationsGrid');
         }
     } catch (error) {
         console.error('❌ Error loading recommendations:', error);
@@ -936,25 +1063,263 @@ function displayRecommendations(recommendations, containerId) {
     if (!container) return;
 
     container.innerHTML = recommendations.map(rec => {
-        const price = rec.price_range ? rec.price_range.toString().replace('_', '-') : "N/A";
         const desc = rec.description || "No description available";
-        const category = rec.category ? rec.category.replace('_', ' ').toUpperCase() : "UNKNOWN";
+        const mapsUrl = rec.google_maps_url || "#";
 
         return `
             <div class="rec-card">
-                <span class="rec-category">${category}</span>
-                <h3>${rec.title}</h3>
-                <p style="color: #666; margin: 1rem 0;">${desc}</p>
-                <div class="rec-meta">
-                    <p>📍 ${rec.address}</p>
-                    <p>⭐ ${rec.rating}/5 | 💰 ${price}</p>
+                <div class="rec-thumbnail" style="background-image: url('${rec.image_url || '/static/images/nearby/default.jpg'}')"></div>
+                <div class="rec-info">
+                    <h3>${rec.title}</h3>
+                    <p>${desc}</p>
+                    <a href="${mapsUrl}" target="_blank" class="maps-link">📍 View on Google Maps</a>
                 </div>
             </div>
         `;
     }).join('');
 }
 
+// ============================================
+// STAY PACKAGES BOOKING
+// ============================================
+let currentPackageName = '';
+let currentPackageDesc = '';
+let roomCategoriesCached = [];
 
+async function openPackageModal(packageName, packageDesc) {
+    currentPackageName = packageName;
+    currentPackageDesc = packageDesc;
+    
+    document.getElementById('modalPackageTitle').textContent = packageName;
+    document.getElementById('modalPackageDesc').textContent = packageDesc;
+    document.getElementById('modalPackageName').value = packageName;
+    
+    // Reset inputs
+    document.getElementById('packageCheckIn').value = '';
+    document.getElementById('packageCheckOut').value = '';
+    document.getElementById('packageSpecialRequests').value = '';
+    document.getElementById('modalTotalAmount').textContent = '₹0';
+    document.getElementById('modalDiscountNote').style.display = 'none';
+    
+    // Show/hide category selection
+    const categoryGroup = document.getElementById('modalCategoryGroup');
+    const guestGroup = document.getElementById('guestCountGroup');
+    const rateEl = document.getElementById('modalRatePerNight');
+    
+    try {
+        if (roomCategoriesCached.length === 0) {
+            const resp = await fetch(`${API_BASE}/bookings/categories`);
+            const data = await resp.json();
+            roomCategoriesCached = data.categories || [];
+        }
+        
+        const catSelect = document.getElementById('modalRoomCategory');
+        catSelect.innerHTML = '';
+        
+        if (packageName === 'Weekend Discount' || packageName === 'Long-Stay Discount') {
+            categoryGroup.style.display = 'block';
+            guestGroup.style.display = 'block';
+            
+            // Filter categories based on package rules
+            let allowedCats = roomCategoriesCached;
+            if (packageName === 'Weekend Discount') {
+                allowedCats = roomCategoriesCached.filter(c => c.category_id === 1 || c.category_id === 2);
+            }
+            
+            catSelect.innerHTML = allowedCats.map(c => `
+                <option value="${c.category_id}" data-price="${c.base_price}" data-capacity="${c.capacity}">
+                    ${c.name} - ₹${c.base_price}/night (Max ${c.capacity} guests)
+                </option>
+            `).join('');
+            
+            rateEl.textContent = `₹${parseFloat(allowedCats[0]?.base_price || 0).toFixed(2)}`;
+        } else {
+            categoryGroup.style.display = 'none';
+            if (packageName === 'Honeymoon Package') {
+                guestGroup.style.display = 'none'; // Lock to 2 guests
+                document.getElementById('packageGuests').value = 2;
+                const suite = roomCategoriesCached.find(c => c.category_id === 6);
+                rateEl.textContent = `₹${parseFloat(suite?.base_price || 5000).toFixed(2)}`;
+            } else if (packageName === 'Corporate Package') {
+                guestGroup.style.display = 'none'; // Lock to 1 guest
+                document.getElementById('packageGuests').value = 1;
+                const exec = roomCategoriesCached.find(c => c.category_id === 4);
+                rateEl.textContent = `₹${parseFloat(exec?.base_price || 2800).toFixed(2)}`;
+            }
+        }
+        
+        // Check authentication status
+        const confirmBtn = document.getElementById('confirmPackageBookingBtn');
+        const authAlert = document.getElementById('modalAuthAlert');
+        
+        if (!currentUser || !currentToken) {
+            confirmBtn.style.display = 'none';
+            authAlert.style.display = 'block';
+        } else {
+            confirmBtn.style.display = 'block';
+            authAlert.style.display = 'none';
+        }
+        
+        document.getElementById('packageBookingModal').style.display = 'block';
+        
+    } catch (e) {
+        console.error('Error loading package categories:', e);
+        showAlert('Error loading package details', 'error');
+    }
+}
+
+function closePackageModal() {
+    document.getElementById('packageBookingModal').style.display = 'none';
+}
+
+function calculatePackageTotal() {
+    const checkInStr = document.getElementById('packageCheckIn').value;
+    const checkOutStr = document.getElementById('packageCheckOut').value;
+    const totalAmountEl = document.getElementById('modalTotalAmount');
+    const rateEl = document.getElementById('modalRatePerNight');
+    const discountEl = document.getElementById('modalDiscountNote');
+    
+    if (!checkInStr || !checkOutStr) {
+        totalAmountEl.textContent = '₹0';
+        discountEl.style.display = 'none';
+        return;
+    }
+    
+    const checkIn = new Date(checkInStr);
+    const checkOut = new Date(checkOutStr);
+    const diffTime = checkOut - checkIn;
+    const nights = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    
+    if (nights <= 0) {
+        totalAmountEl.textContent = 'Invalid Dates';
+        discountEl.style.display = 'none';
+        return;
+    }
+    
+    let basePricePerNight = 0;
+    let finalPrice = 0;
+    let discountApplied = false;
+    
+    if (currentPackageName === 'Weekend Discount' || currentPackageName === 'Long-Stay Discount') {
+        const selectEl = document.getElementById('modalRoomCategory');
+        const option = selectEl.options[selectEl.selectedIndex];
+        if (option) {
+            basePricePerNight = parseFloat(option.dataset.price);
+        }
+        
+        if (currentPackageName === 'Weekend Discount') {
+            basePricePerNight = basePricePerNight * 0.85; // 15% discount
+            discountApplied = true;
+        } else if (currentPackageName === 'Long-Stay Discount' && nights >= 7) {
+            basePricePerNight = basePricePerNight * 0.80; // 20% discount
+            discountApplied = true;
+        }
+    } else if (currentPackageName === 'Honeymoon Package') {
+        const suite = roomCategoriesCached.find(c => c.category_id === 6);
+        basePricePerNight = suite ? parseFloat(suite.base_price) : 5000;
+    } else if (currentPackageName === 'Corporate Package') {
+        const exec = roomCategoriesCached.find(c => c.category_id === 4);
+        basePricePerNight = exec ? parseFloat(exec.base_price) : 2800;
+    }
+    
+    rateEl.textContent = `₹${basePricePerNight.toFixed(2)}`;
+    finalPrice = basePricePerNight * nights;
+    totalAmountEl.textContent = `₹${finalPrice.toFixed(2)}`;
+    
+    if (discountApplied) {
+        discountEl.style.display = 'block';
+    } else {
+        discountEl.style.display = 'none';
+    }
+}
+
+async function submitPackageBooking() {
+    if (!currentUser || !currentToken) {
+        showAlert('Please sign in to complete booking', 'error');
+        redirectToLogin();
+        return;
+    }
+    
+    const checkIn = document.getElementById('packageCheckIn').value;
+    const checkOut = document.getElementById('packageCheckOut').value;
+    const guests = parseInt(document.getElementById('packageGuests').value || 2);
+    const requests = document.getElementById('packageSpecialRequests').value || '';
+    
+    if (!checkIn || !checkOut) {
+        showAlert('Please choose check-in and check-out dates', 'error');
+        return;
+    }
+    
+    const checkInDate = new Date(checkIn);
+    const checkOutDate = new Date(checkOut);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    
+    if (checkInDate < today) {
+        showAlert('Check-in date cannot be in the past', 'error');
+        return;
+    }
+    
+    if (checkOutDate <= checkInDate) {
+        showAlert('Check-out must be after check-in', 'error');
+        return;
+    }
+    
+    let categoryId = 0;
+    if (currentPackageName === 'Weekend Discount' || currentPackageName === 'Long-Stay Discount') {
+        categoryId = parseInt(document.getElementById('modalRoomCategory').value);
+    } else if (currentPackageName === 'Honeymoon Package') {
+        categoryId = 6;
+    } else if (currentPackageName === 'Corporate Package') {
+        categoryId = 4;
+    }
+    
+    try {
+        showSpinner('confirmPackageBookingBtn', true);
+        
+        const payload = {
+            category_id: categoryId,
+            check_in_date: checkIn,
+            check_out_date: checkOut,
+            guests: guests,
+            special_requests: `[Package: ${currentPackageName}] ${requests}`.trim(),
+            package_name: currentPackageName
+        };
+        
+        console.log('Sending package booking payload:', payload);
+        
+        const response = await fetch(`${API_BASE}/bookings`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${currentToken}`
+            },
+            body: JSON.stringify(payload)
+        });
+        
+        const data = await response.json();
+        console.log('Package booking response:', data);
+        
+        if (response.ok) {
+            showAlert('Package booking successful! Redirecting to payment...', 'success');
+            closePackageModal();
+            setTimeout(() => {
+                window.location.href = `payment.html?booking_id=${data.booking_id}`;
+            }, 1500);
+        } else {
+            showAlert(data.message || 'Package booking failed', 'error');
+        }
+    } catch (e) {
+        console.error('Error during package booking:', e);
+        showAlert('Network error. Please try again.', 'error');
+    } finally {
+        showSpinner('confirmPackageBookingBtn', false);
+    }
+}
+
+function redirectToLogin() {
+    window.location.href = `login.html?redirect=offers.html`;
+}
 
 // ============================================
 // UTILITIES
@@ -1010,5 +1375,17 @@ window.searchRooms = searchRooms;
 window.bookRoom = bookRoom;
 window.processPayment = processPayment;
 window.selectRoomForBooking = selectRoomForBooking;
+window.cancelBooking = cancelBooking;
+window.downloadInvoice = downloadInvoice;
+window.downloadInvoiceFromConfirmation = downloadInvoiceFromConfirmation;
+window.openPackageModal = openPackageModal;
+window.closePackageModal = closePackageModal;
+window.calculatePackageTotal = calculatePackageTotal;
+window.submitPackageBooking = submitPackageBooking;
+window.redirectToLogin = redirectToLogin;
+window.loadAdminBookings = loadAdminBookings;
+window.updateAdminBookingStatus = updateAdminBookingStatus;
+window.addAdminRoom = addAdminRoom;
+window.editAdminRoom = editAdminRoom;
 
 console.log('✅ Script loaded successfully - All functions ready');
