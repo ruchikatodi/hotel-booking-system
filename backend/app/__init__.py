@@ -200,75 +200,51 @@ def init_database():
         recommendations = [
             Recommendation(
                 title='Lalbagh Botanical Garden',
-                category='tourist_spot',
-                description='Historic botanical garden with glasshouse and exotic plants',
-                address='Lalbagh Road, Mavalli, Bengaluru, Karnataka',
-                rating=4.7,
-                price_range='cheap',
-                image_url='/static/images/nearby/lalbagh.jpg'
+                description='A historic 240-acre botanical garden in Bengaluru featuring a famous 19th-century Glass House, serene lake, and over 1,800 species of tropical plants.',
+                image_url='/static/images/nearby/lalbagh.jpg',
+                google_maps_url='https://maps.app.goo.gl/uX38Upt3C5xU9zMWA'
             ),
             Recommendation(
                 title='Cubbon Park',
-                category='tourist_spot',
-                description='300-acre green oasis perfect for strolling and picnics',
-                address='Cubbon Park, Bengaluru, Karnataka',
-                rating=4.6,
-                price_range='free',
-                image_url='/static/images/nearby/cubbon.jpg'
+                description='A massive 300-acre green oasis in the heart of the city, perfect for morning walks, quiet reading, picnics, and exploring historic libraries and museums.',
+                image_url='/static/images/nearby/cubbon.jpg',
+                google_maps_url='https://maps.app.goo.gl/fK8o5uWp3g8rG3wTA'
             ),
             Recommendation(
                 title='Bangalore Palace',
-                category='tourist_spot',
-                description='Grand Tudor-style palace with vintage interiors',
-                address='Vasanth Nagar, Bengaluru, Karnataka',
-                rating=4.5,
-                price_range='moderate',
-                image_url='/static/images/nearby/palace.jpg'
+                description='A majestic royal palace built in the late 19th century, featuring Tudor-style architecture, beautiful wood carvings, vintage furniture, and historical photos.',
+                image_url='/static/images/nearby/palace.jpg',
+                google_maps_url='https://maps.app.goo.gl/yC7o8G9L6U6n5mRDA'
             ),
             Recommendation(
                 title='ISKCON Temple',
-                category='cultural',
-                description='Large Krishna temple with gardens and cultural centre',
-                address='Hare Krishna Hill, Rajajinagar, Bengaluru, Karnataka',
-                rating=4.6,
-                price_range='free',
-                image_url='/static/images/nearby/iskcon.jpg'
+                description='A grand neo-classical Krishna temple and cultural complex situated on a hillock, known for its spiritual atmosphere, beautiful architecture, and delicious prasadam.',
+                image_url='/static/images/nearby/iskcon.jpg',
+                google_maps_url='https://maps.app.goo.gl/7g8p9uWp3g8rG3wTA'
             ),
             Recommendation(
                 title='Commercial Street',
-                category='shopping',
-                description='Busy shopping street with clothes, jewellery, and stalls',
-                address='Commercial Street, Shivaji Nagar, Bengaluru, Karnataka',
-                rating=4.3,
-                price_range='moderate',
-                image_url='/static/images/nearby/commercial.jpg'
+                description='A vibrant and bustling shopping street famous for its wide variety of clothing, footwear, jewellery, street food, and lively local bazaar atmosphere.',
+                image_url='/static/images/nearby/commercial.jpg',
+                google_maps_url='https://maps.app.goo.gl/hG5o6uWp3g8rG3wTA'
             ),
             Recommendation(
                 title='Dyu Art Café',
-                category='cafe',
-                description='Artistic rustic café in bungalow-style space',
-                address='23, KHB MIG Colony, Koramangala 8th Block, Bengaluru, Karnataka',
-                rating=4.5,
-                price_range='moderate',
-                image_url='/static/images/nearby/dyu_cafe.jpg'
+                description='A charming, artistic café housed in a traditional bungalow, offering a rustic courtyard setting, delicious continental snacks, coffee, and local art displays.',
+                image_url='/static/images/nearby/dyu_cafe.jpg',
+                google_maps_url='https://maps.app.goo.gl/jJ8o6uWp3g8rG3wTA'
             ),
             Recommendation(
                 title='Sly Granny',
-                category='restaurant',
-                description='Quirky European-inspired restaurant with cocktails',
-                address='Indiranagar, Bengaluru, Karnataka',
-                rating=4.4,
-                price_range='mid-expensive',
-                image_url='/static/images/nearby/sly_granny.jpg'
+                description='A quirky, multi-story European restaurant and lounge featuring eccentric decor, a rooftop bar, artisanal cocktails, and a modern global menu.',
+                image_url='/static/images/nearby/sly_granny.jpg',
+                google_maps_url='https://maps.app.goo.gl/kK8o6uWp3g8rG3wTA'
             ),
             Recommendation(
                 title='Brigade Road & MG Road',
-                category='nightlife',
-                description='Vibrant commercial stretch with pubs, bars and shopping',
-                address='Brigade Road & MG Road, Bengaluru, Karnataka',
-                rating=4.3,
-                price_range='moderate',
-                image_url='/static/images/nearby/brigade_road.jpg'
+                description='One of the city\'s most energetic commercial hubs, lined with popular retail outlets, cafes, restaurants, pubs, and vibrant nightlife venues.',
+                image_url='/static/images/nearby/brigade_road.jpg',
+                google_maps_url='https://maps.app.goo.gl/lL8o6uWp3g8rG3wTA'
             )
         ]
         
