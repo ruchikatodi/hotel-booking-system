@@ -56,6 +56,25 @@
         </div>
     </section>
 
+    <!-- QR Check-in Modal -->
+    <div id="qrCheckInModal" class="modal">
+        <div class="modal-content" style="text-align: center; max-width: 450px; margin: 10% auto; padding: 2.5rem;">
+            <span class="close-modal" onclick="closeQrModal()">&times;</span>
+            <span class="eyebrow">Digital Check-In</span>
+            <h2 style="font-family: var(--font-serif); font-weight: 400; margin-top: 0.5rem; margin-bottom: 1rem; font-size: 1.8rem;">Check-in QR Code</h2>
+            <p style="color: #666; font-size: 0.88rem; line-height: 1.6; margin-bottom: 1.5rem;">Present this QR code at the reception desk upon arrival, or scan it below to check in automatically.</p>
+            
+            <div style="margin: 1.5rem auto; width: 180px; height: 180px; padding: 10px; background: white; border: 1px solid var(--color-sand); display: flex; align-items: center; justify-content: center; border-radius: var(--border-radius);">
+                <!-- Dynamically loaded image -->
+                <img id="qrCodeImg" src="" alt="Booking Check-in QR" style="width: 160px; height: 160px;">
+            </div>
+            
+            <p style="font-size: 0.9rem; color: var(--color-gold); font-weight: 600; margin-bottom: 2rem;" id="qrBookingDetails"></p>
+            
+            <button id="simulateScanBtn" class="btn btn-primary full-width" onclick="simulateSelfCheckIn()">Scan & Self Check-in</button>
+        </div>
+    </div>
+
     <div id="alertContainer"></div>
     <script src="/static/js/script.js"></script>
     <!-- <script>

@@ -29,9 +29,9 @@ def get_recommendations():
             {
                 "recommendation_id": 1,
                 "title": "Lalbagh Botanical Garden",
-                "description": "A sprawling garden situated in a 240 acres piece of land in the heart of the city, Lalbagh houses India’s largest collection of tropical plants and sub-tropical plants, including trees that are several centuries old",
-                "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Glasshouse_and_fountain_at_lalbagh.jpg/500px-Glasshouse_and_fountain_at_lalbagh.jpg",
-                "google_maps_url": "https://www.bing.com/ck/a?!&&p=a07c5fadd797e223960f0d75a8df5eab17ed0215860016181dcf38bff6be3524JmltdHM9MTc4MDI3MjAwMA&ptn=3&ver=2&hsh=4&fclid=007da303-de0b-67c6-3f75-b061dfa66662&u=a1L21hcHM_Jm1lcGk9MH5-RW1iZWRkZWR-QWRkcmVzc19MaW5rJnR5PTE4JnE9TGFsYmFnaCUyMEJvdGFuaWNhbCUyMEdhcmRlbiZzcz15cGlkLllONDA3MHgxNjIyOTQyMjM0MzIwMTE2MDAzMSZwcG9pcz0xMi45Mzc5MDA1NDMyMTI4OV83Ny41ODAyOTkzNzc0NDE0X0xhbGJhZ2glMjBCb3RhbmljYWwlMjBHYXJkZW5fWU40MDcweDE2MjI5NDIyMzQzMjAxMTYwMDMxfiZjcD0xMi45Mzc5MDF-NzcuNTgwMjk5JnY9MiZzVj0xJkZPUk09TVBTUlBM"
+                "description": "...",
+                "image_url": "...",
+                "google_maps_url": "..."
             },
             ...
         ]

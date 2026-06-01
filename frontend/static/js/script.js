@@ -196,6 +196,11 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
+    if (window.location.pathname.includes('payment.html')) {
+        console.log('💳 Payment page detected');
+        loadPaymentDetails();
+    }
+
     console.log('✅ Initialization complete!');
 });
 
@@ -836,21 +841,106 @@ function displayUserBookings(bookings) {
     console.log('📋 Displaying', bookings.length, 'bookings');
 
     if (bookings.length === 0) {
-        container.innerHTML = '<tr><td colspan="6" style="text-align:center; padding: 2rem; color: #666;">No bookings found. Start by searching for rooms!</td></tr>';
+        container.innerHTML = '<tr><td colspan="7" style="text-align:center; padding: 2rem; color: #666;">No bookings found. Start by searching for rooms!</td></tr>';
         return;
     }
 
-    container.innerHTML = bookings.map(b => `
-        <tr>
-            <td>#${b.booking_id}</td>
-            <td>Room ${b.room_id}</td>
-            <td>${b.check_in_date}</td>
-            <td>${b.check_out_date}</td>
-            <td>₹${parseFloat(b.total_amount).toFixed(2)}</td>
-            <td><span class="badge badge-${getBadgeClass(b.status)}">${b.status.toUpperCase()}</span></td>
-        </tr>
-    `).join('');
+    container.innerHTML = bookings.map(b => {
+        let actions = '';
+        if (b.status === 'pending') {
+            actions = `<a href="payment.html?booking_id=${b.booking_id}" class="btn btn-accent" style="padding: 0.4rem 1rem; font-size: 0.75rem;">Pay Now</a>`;
+        } else if (b.status === 'confirmed') {
+            actions = `<button class="btn btn-primary" onclick="openQrModal(${b.booking_id})" style="padding: 0.4rem 1rem; font-size: 0.75rem;">QR Check-In</button>`;
+        } else {
+            actions = `<span style="color: #666; font-size: 0.85rem;">—</span>`;
+        }
+        
+        return `
+            <tr>
+                <td style="padding: 12px 14px;">#${b.booking_id}</td>
+                <td style="padding: 12px 14px;">Room ${b.room_id}</td>
+                <td style="padding: 12px 14px;">${b.check_in_date}</td>
+                <td style="padding: 12px 14px;">${b.check_out_date}</td>
+                <td style="padding: 12px 14px;">₹${parseFloat(b.total_amount).toFixed(2)}</td>
+                <td style="padding: 12px 14px;"><span class="badge badge-${getBadgeClass(b.status)}">${b.status.toUpperCase()}</span></td>
+                <td style="padding: 12px 14px;">${actions}</td>
+            </tr>
+        `;
+    }).join('');
 }
+
+// ============================================
+// QR CODE CHECK-IN ACTIONS
+// ============================================
+function openQrModal(bookingId) {
+    const modal = document.getElementById('qrCheckInModal');
+    const qrImg = document.getElementById('qrCodeImg');
+    const details = document.getElementById('qrBookingDetails');
+    const simulateBtn = document.getElementById('simulateScanBtn');
+    
+    if (modal && qrImg && details && simulateBtn) {
+        const qrData = JSON.stringify({ booking_id: bookingId, action: 'check_in' });
+        qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=${encodeURIComponent(qrData)}`;
+        details.textContent = `Booking ID: #${bookingId}`;
+        simulateBtn.dataset.bookingId = bookingId;
+        
+        modal.style.display = 'block';
+    }
+}
+
+function closeQrModal() {
+    const modal = document.getElementById('qrCheckInModal');
+    if (modal) {
+        modal.style.display = 'none';
+    }
+}
+
+async function simulateSelfCheckIn() {
+    const simulateBtn = document.getElementById('simulateScanBtn');
+    const bookingId = simulateBtn?.dataset.bookingId;
+    
+    if (!bookingId) {
+        showAlert('Invalid booking reference', 'error');
+        return;
+    }
+    
+    console.log('📡 Simulating scanner check-in for booking:', bookingId);
+    
+    try {
+        showSpinner('simulateScanBtn', true);
+        
+        const response = await fetch(`${API_BASE}/bookings/${bookingId}/qr-checkin`, {
+            method: 'PATCH',
+            headers: {
+                'Authorization': `Bearer ${currentToken}`,
+                'Content-Type': 'application/json'
+            }
+        });
+        
+        const data = await response.json();
+        console.log('📡 QR check-in response:', data);
+        
+        if (response.ok) {
+            showAlert('Check-in successful! Welcome to Novacrest Hotel.', 'success');
+            closeQrModal();
+            loadUserBookings('all');
+        } else {
+            showAlert(data.message || 'Check-in failed', 'error');
+        }
+    } catch (e) {
+        console.error('❌ Check-in error:', e);
+        showAlert('Network error. Please try again.', 'error');
+    } finally {
+        showSpinner('simulateScanBtn', false);
+    }
+}
+
+// Close QR Modal when clicking outside content
+document.getElementById('qrCheckInModal')?.addEventListener('click', function(e) {
+    if (e.target === this) {
+        closeQrModal();
+    }
+});
 
 function getBadgeClass(status) {
     const classes = {
@@ -1387,5 +1477,8 @@ window.loadAdminBookings = loadAdminBookings;
 window.updateAdminBookingStatus = updateAdminBookingStatus;
 window.addAdminRoom = addAdminRoom;
 window.editAdminRoom = editAdminRoom;
+window.openQrModal = openQrModal;
+window.closeQrModal = closeQrModal;
+window.simulateSelfCheckIn = simulateSelfCheckIn;
 
 console.log('✅ Script loaded successfully - All functions ready');
