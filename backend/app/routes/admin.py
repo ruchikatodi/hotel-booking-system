@@ -863,3 +863,166 @@ def get_all_bookings():
             'message': str(e)
         }), 500
 
+
+@bp.route('/bookings/<int:booking_id>/status', methods=['PATCH'])
+@jwt_required()
+def update_booking_status(booking_id):
+    """Confirm, cancel, check in, or check out a booking from admin."""
+    try:
+        user_id = get_jwt_identity()
+        check_admin(user_id)
+
+        data = request.get_json() or {}
+        status = data.get('status')
+        valid_statuses = ['pending', 'confirmed', 'checked_in', 'checked_out', 'cancelled']
+
+        if status not in valid_statuses:
+            return jsonify({'error': 'ValidationError', 'message': 'Invalid booking status'}), 400
+
+        booking = Booking.query.get(booking_id)
+        if not booking:
+            return jsonify({'error': 'NotFound', 'message': 'Booking not found'}), 404
+
+        booking.status = status
+        if status == 'cancelled':
+            booking.cancellation_reason = data.get('reason', 'Cancelled by admin')
+            booking.cancelled_at = datetime.utcnow()
+            if booking.room:
+                booking.room.status = 'available'
+        elif status in ['confirmed', 'checked_in']:
+            if booking.room:
+                booking.room.status = 'reserved'
+        elif status == 'checked_out':
+            if booking.room:
+                booking.room.status = 'available'
+
+        db.session.commit()
+        return jsonify({'message': 'Booking updated', 'booking': booking.to_dict(include_payment=True)}), 200
+
+    except AuthorizationException as e:
+        db.session.rollback()
+        return jsonify(e.to_dict()), 403
+    except Exception as e:
+        db.session.rollback()
+        print(f"âŒ Update booking status error: {str(e)}")
+        return jsonify({'error': 'Error', 'message': str(e)}), 500
+
+
+@bp.route('/rooms', methods=['GET'])
+@jwt_required()
+def admin_rooms():
+    """List rooms with category details."""
+    try:
+        user_id = get_jwt_identity()
+        check_admin(user_id)
+
+        rooms = Room.query.order_by(Room.room_number.asc()).all()
+        return jsonify({
+            'total_rooms': len(rooms),
+            'rooms': [room.to_dict(include_category=True) for room in rooms]
+        }), 200
+
+    except AuthorizationException as e:
+        return jsonify(e.to_dict()), 403
+    except Exception as e:
+        return jsonify({'error': 'Error', 'message': str(e)}), 500
+
+
+@bp.route('/rooms', methods=['POST'])
+@jwt_required()
+def add_room():
+    """Add a room to an existing category."""
+    try:
+        user_id = get_jwt_identity()
+        check_admin(user_id)
+
+        data = request.get_json() or {}
+        required = ['room_number', 'category_id', 'floor']
+        if any(field not in data for field in required):
+            return jsonify({'error': 'ValidationError', 'message': 'room_number, category_id, and floor are required'}), 400
+
+        if Room.query.filter_by(room_number=data['room_number']).first():
+            return jsonify({'error': 'ValidationError', 'message': 'Room number already exists'}), 400
+
+        room = Room(
+            room_number=data['room_number'],
+            category_id=int(data['category_id']),
+            floor=int(data['floor']),
+            status=data.get('status', 'available'),
+            description=data.get('description', '')
+        )
+        db.session.add(room)
+        db.session.commit()
+        return jsonify({'message': 'Room added', 'room': room.to_dict(include_category=True)}), 201
+
+    except AuthorizationException as e:
+        db.session.rollback()
+        return jsonify(e.to_dict()), 403
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'error': 'Error', 'message': str(e)}), 500
+
+
+@bp.route('/rooms/<int:room_id>', methods=['PATCH'])
+@jwt_required()
+def update_room(room_id):
+    """Edit room details, status, or price through its category."""
+    try:
+        user_id = get_jwt_identity()
+        check_admin(user_id)
+
+        data = request.get_json() or {}
+        room = Room.query.get(room_id)
+        if not room:
+            return jsonify({'error': 'NotFound', 'message': 'Room not found'}), 404
+
+        if 'room_number' in data:
+            room.room_number = data['room_number']
+        if 'floor' in data:
+            room.floor = int(data['floor'])
+        if 'status' in data:
+            room.set_status(data['status'])
+        if 'description' in data:
+            room.description = data['description']
+        if 'base_price' in data and room.category:
+            room.category.base_price = float(data['base_price'])
+        if 'category_description' in data and room.category:
+            room.category.description = data['category_description']
+        if 'amenities' in data and room.category:
+            amenities = data['amenities']
+            room.category.amenities = ', '.join(amenities) if isinstance(amenities, list) else amenities
+
+        db.session.commit()
+        return jsonify({'message': 'Room updated', 'room': room.to_dict(include_category=True)}), 200
+
+    except AuthorizationException as e:
+        db.session.rollback()
+        return jsonify(e.to_dict()), 403
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'error': 'Error', 'message': str(e)}), 500
+
+
+@bp.route('/customers', methods=['GET'])
+@jwt_required()
+def admin_customers():
+    """List guests with booking history and loyalty data."""
+    try:
+        user_id = get_jwt_identity()
+        check_admin(user_id)
+
+        customers = User.query.filter_by(role='customer').order_by(User.created_at.desc()).all()
+        data = []
+        for customer in customers:
+            customer_data = customer.to_dict()
+            customer_data['bookings'] = [b.to_dict(include_payment=True) for b in customer.bookings]
+            customer_data['loyalty'] = customer.loyalty.to_dict() if customer.loyalty else None
+            data.append(customer_data)
+
+        return jsonify({'total_customers': len(data), 'customers': data}), 200
+
+    except AuthorizationException as e:
+        return jsonify(e.to_dict()), 403
+    except Exception as e:
+        return jsonify({'error': 'Error', 'message': str(e)}), 500
+

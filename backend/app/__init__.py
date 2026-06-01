@@ -204,7 +204,8 @@ def init_database():
                 description='Historic botanical garden with glasshouse and exotic plants',
                 address='Lalbagh Road, Mavalli, Bengaluru, Karnataka',
                 rating=4.7,
-                price_range='cheap'
+                price_range='cheap',
+                image_url='/static/images/nearby/lalbagh.jpg'
             ),
             Recommendation(
                 title='Cubbon Park',
@@ -212,7 +213,8 @@ def init_database():
                 description='300-acre green oasis perfect for strolling and picnics',
                 address='Cubbon Park, Bengaluru, Karnataka',
                 rating=4.6,
-                price_range='free'
+                price_range='free',
+                image_url='/static/images/nearby/cubbon.jpg'
             ),
             Recommendation(
                 title='Bangalore Palace',
@@ -220,7 +222,8 @@ def init_database():
                 description='Grand Tudor-style palace with vintage interiors',
                 address='Vasanth Nagar, Bengaluru, Karnataka',
                 rating=4.5,
-                price_range='moderate'
+                price_range='moderate',
+                image_url='/static/images/nearby/palace.jpg'
             ),
             Recommendation(
                 title='ISKCON Temple',
@@ -228,7 +231,8 @@ def init_database():
                 description='Large Krishna temple with gardens and cultural centre',
                 address='Hare Krishna Hill, Rajajinagar, Bengaluru, Karnataka',
                 rating=4.6,
-                price_range='free'
+                price_range='free',
+                image_url='/static/images/nearby/iskcon.jpg'
             ),
             Recommendation(
                 title='Commercial Street',
@@ -236,7 +240,8 @@ def init_database():
                 description='Busy shopping street with clothes, jewellery, and stalls',
                 address='Commercial Street, Shivaji Nagar, Bengaluru, Karnataka',
                 rating=4.3,
-                price_range='moderate'
+                price_range='moderate',
+                image_url='/static/images/nearby/commercial.jpg'
             ),
             Recommendation(
                 title='Dyu Art Café',
@@ -244,7 +249,8 @@ def init_database():
                 description='Artistic rustic café in bungalow-style space',
                 address='23, KHB MIG Colony, Koramangala 8th Block, Bengaluru, Karnataka',
                 rating=4.5,
-                price_range='moderate'
+                price_range='moderate',
+                image_url='/static/images/nearby/dyu_cafe.jpg'
             ),
             Recommendation(
                 title='Sly Granny',
@@ -252,7 +258,8 @@ def init_database():
                 description='Quirky European-inspired restaurant with cocktails',
                 address='Indiranagar, Bengaluru, Karnataka',
                 rating=4.4,
-                price_range='mid-expensive'
+                price_range='mid-expensive',
+                image_url='/static/images/nearby/sly_granny.jpg'
             ),
             Recommendation(
                 title='Brigade Road & MG Road',
@@ -260,7 +267,8 @@ def init_database():
                 description='Vibrant commercial stretch with pubs, bars and shopping',
                 address='Brigade Road & MG Road, Bengaluru, Karnataka',
                 rating=4.3,
-                price_range='moderate'
+                price_range='moderate',
+                image_url='/static/images/nearby/brigade_road.jpg'
             )
         ]
         

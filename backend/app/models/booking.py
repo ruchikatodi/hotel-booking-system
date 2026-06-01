@@ -33,6 +33,7 @@ class Booking(db.Model):
     total_amount = db.Column(db.Float, nullable=False)
     status = db.Column(db.String(20), default='pending')
     special_requests = db.Column(db.Text)
+    package_name = db.Column(db.String(100), nullable=True)
     booking_date = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
     cancellation_reason = db.Column(db.Text)
@@ -51,7 +52,7 @@ class Booking(db.Model):
     STATUS_CANCELLED = 'cancelled'  # Booking cancelled
     
     def __init__(self, user_id, room_id, check_in_date, check_out_date, guests, total_amount, special_requests="", status="pending",
-             ):
+             package_name=None):
         """Constructor"""
         # Validate dates
         if check_out_date <= check_in_date:
@@ -65,6 +66,7 @@ class Booking(db.Model):
         self.total_amount = total_amount
         self.special_requests = special_requests
         self.status = status              # ✅ now allowed
+        self.package_name = package_name
 
     
     @property
@@ -152,6 +154,7 @@ class Booking(db.Model):
             'total_amount': self.total_amount,
             'status': self.status,
             'special_requests': self.special_requests,
+            'package_name': self.package_name,
             'booking_date': self.booking_date.isoformat() if self.booking_date else None,
             'updated_at': self.updated_at.isoformat() if self.updated_at else None,
             'is_active': self.is_active,

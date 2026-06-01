@@ -32,6 +32,7 @@ class Recommendation(db.Model):
     distance_from_hotel = db.Column(db.Float)  # in km
     contact_info = db.Column(db.String(100))
     website = db.Column(db.String(255))
+    image_url = db.Column(db.String(255))
     is_active = db.Column(db.Boolean, default=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     
@@ -43,7 +44,7 @@ class Recommendation(db.Model):
     CATEGORY_NIGHTLIFE = 'nightlife'
     CATEGORY_CULTURAL = 'cultural'
     
-    def __init__(self, title, category, description, address, rating=0, price_range="moderate"):
+    def __init__(self, title, category, description, address, rating=0, price_range="moderate", image_url=None):
         """Constructor"""
         self.title = title
         self.category = category
@@ -51,6 +52,7 @@ class Recommendation(db.Model):
         self.address = address
         self.rating = rating
         self.price_range = price_range
+        self.image_url = image_url
     
     def to_dict(self):
         """Convert to dictionary"""
@@ -67,6 +69,7 @@ class Recommendation(db.Model):
             'distance_from_hotel': self.distance_from_hotel,
             'contact_info': self.contact_info,
             'website': self.website,
+            'image_url': self.image_url,
             'is_active': self.is_active,
             'created_at': self.created_at.isoformat() if self.created_at else None
         }

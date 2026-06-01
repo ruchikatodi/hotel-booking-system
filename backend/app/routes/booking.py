@@ -176,7 +176,7 @@ def create_booking():
     try:
         print("🔍 Starting booking creation...")
 
-        user_id = get_jwt_identity()
+        user_id = int(get_jwt_identity())
         print(f"✅ User ID: {user_id}")
 
         data = request.get_json()
@@ -247,10 +247,34 @@ def create_booking():
 
         print(f"🏨 Assigned Room → {available_room.room_number}")
 
-        # ---- PRICE CALC ----
+        # ---- PRICE CALC & PACKAGE VALIDATION ----
         nights = (check_out - check_in).days
+        package_name = data.get('package_name')
         total_amount = category.base_price * nights
-        print(f"💰 Total Price: {total_amount} ({nights} nights)")
+
+        if package_name:
+            valid_packages = ['Weekend Discount', 'Honeymoon Package', 'Corporate Package', 'Long-Stay Discount']
+            if package_name not in valid_packages:
+                raise ValidationException(f"Invalid package name. Valid options are: {', '.join(valid_packages)}", field="package_name")
+            
+            if package_name == 'Weekend Discount':
+                if category_id not in [1, 2]:
+                    raise ValidationException("Weekend Discount is only applicable for Standard Room or Deluxe Room.", field="category_id")
+                # Apply 15% discount
+                total_amount = total_amount * 0.85
+            elif package_name == 'Long-Stay Discount':
+                if nights < 7:
+                    raise ValidationException("Long-Stay Discount requires a stay of at least 7 nights.", field="dates")
+                # Apply 20% discount
+                total_amount = total_amount * 0.80
+            elif package_name == 'Honeymoon Package':
+                if category_id != 6:
+                    raise ValidationException("Honeymoon Package is only applicable to the Honeymoon Suite.", field="category_id")
+            elif package_name == 'Corporate Package':
+                if category_id != 4:
+                    raise ValidationException("Corporate Package is only applicable to the Executive Room.", field="category_id")
+
+        print(f"💰 Total Price: {total_amount} ({nights} nights, Package: {package_name or 'None'})")
 
         # ---- CREATE BOOKING ----
         booking = Booking(
@@ -261,7 +285,8 @@ def create_booking():
             guests=guests,
             total_amount=total_amount,
             special_requests=data.get('special_requests', ''),
-            status="pending"
+            status="pending",
+            package_name=package_name
         )
 
         db.session.add(booking)
@@ -317,7 +342,7 @@ def get_my_bookings():
     }
     """
     try:
-        user_id = get_jwt_identity()
+        user_id = int(get_jwt_identity())
         
         # Get filter type
         filter_type = request.args.get('filter')
@@ -429,7 +454,7 @@ def cancel_booking(booking_id):
     }
     """
     try:
-        user_id = get_jwt_identity()
+        user_id = int(get_jwt_identity())
         data = request.get_json() or {}
         
         # Get booking
@@ -450,8 +475,13 @@ def cancel_booking(booking_id):
                 booking_id=booking_id
             )
         
-        # Calculate refund
-        refund_amount = booking.calculate_refund()
+        days_before = (booking.check_in_date - date.today()).days
+        if days_before >= 7:
+            refund_amount = booking.total_amount
+        elif days_before >= 3:
+            refund_amount = booking.total_amount * 0.5
+        else:
+            refund_amount = 0.0
         
         # Cancel booking
         reason = data.get('reason', '')
