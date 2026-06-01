@@ -487,6 +487,52 @@ def cancel_booking(booking_id):
             'error': 'CancellationError',
             'message': 'An error occurred cancelling booking'
         }), 500
+# ============== QR CODE SELF CHECK-IN ==============
+@bp.route('/<int:booking_id>/qr-checkin', methods=['PATCH'])
+@jwt_required()
+def qr_checkin(booking_id):
+    """
+    Self check-in using QR code simulation
+    """
+    try:
+        user_id = int(get_jwt_identity())
+        
+        # Get booking
+        booking = Booking.query.get(booking_id)
+        
+        if not booking:
+            raise BookingNotFoundException(booking_id)
+            
+        # Check ownership
+        if booking.user_id != user_id:
+            from app.utils.exceptions import AuthorizationException
+            raise AuthorizationException("You can only check in for your own bookings")
+            
+        # Perform check-in
+        if booking.status != Booking.STATUS_CONFIRMED:
+            raise ValidationException(
+                f"Cannot check in. Current booking status is '{booking.status}'. Booking must be confirmed (paid) first.",
+                field='status'
+            )
+            
+        booking.status = Booking.STATUS_CHECKED_IN
+        db.session.commit()
+        
+        return jsonify({
+            'message': 'Check-in successful! Welcome to Novacrest Hotel.',
+            'booking': booking.to_dict()
+        }), 200
+        
+    except (BookingNotFoundException, ValidationException) as e:
+        db.session.rollback()
+        return jsonify(e.to_dict()), 400
+    except Exception as e:
+        db.session.rollback()
+        print(f"❌ QR check-in error: {str(e)}")
+        return jsonify({
+            'error': 'CheckInError',
+            'message': 'An unexpected error occurred during check-in'
+        }), 500
 
 
 # ============== GET ROOM CATEGORIES ==============
