@@ -456,12 +456,12 @@ async function searchRooms() {
 
 function getRoomImageUrl(name) {
     const images = {
-        'Standard Room': 'https://images.unsplash.com/photo-1591088398332-8a7791972843?auto=format&fit=crop&w=800&q=80',
-        'Deluxe Room': 'https://images.unsplash.com/photo-1611892440504-42a792e24d32?auto=format&fit=crop&w=800&q=80',
-        'Super Deluxe Room': 'https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=800&q=80',
+        'Standard Room': 'https://cf.bstatic.com/xdata/images/hotel/max1024x768/210768601.jpg?k=d727bde7b7d56a834079d12e6a0951f8cf7a537d853c39cc5ba9a73891d84266&o=',
+        'Deluxe Room': 'https://cf.bstatic.com/xdata/images/hotel/max1024x768/70358530.jpg?k=8aef11cb6f27cccf7c3fa107c06fc7848c5160d208359fe1caabf93ecfd2c3e1&o=',
+        'Super Deluxe Room': 'https://cf.bstatic.com/xdata/images/hotel/max1024x768/363404682.jpg?k=96ecfd0d38e893ada650342aa3e9237a2925795e02c095ca961fbadbe90f233c&o=',
         'Executive Room': 'https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=800&q=80',
-        'Family Suite': 'https://images.unsplash.com/photo-1598928506311-c55ded91a20c?auto=format&fit=crop&w=800&q=80',
-        'Honeymoon Suite': 'https://images.unsplash.com/photo-1566665797739-1674de7a421a?auto=format&fit=crop&w=800&q=80'
+        'Family Suite': 'https://cf.bstatic.com/xdata/images/hotel/max1024x768/96972605.jpg?k=008556d09c23d5a7c1a75182536155e1d8f4d8fb4c2e5ef9c68f27940c709db7&o=',
+        'Honeymoon Suite': 'https://cf.bstatic.com/xdata/images/hotel/max1024x768/70314585.jpg?k=bea8c664ae99b10ae6287c790172743cf1cbbede7a8431ee99876fef940c8d9e&o='
     };
     return images[name] || 'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=800&q=80';
 }
@@ -515,7 +515,7 @@ function displaySearchResults(results) {
                     
                     ${currentUser 
                         ? `<button class="btn btn-primary full-width" onclick="selectRoomForBooking('${cat.category_id}', '${cat.name}', ${cat.total_price}, document.getElementById('checkIn').value, document.getElementById('checkOut').value)">
-                            Book Suite
+                            Book
                            </button>`
                         : `<button class="btn btn-primary full-width" onclick="showAlert('Please login to book rooms', 'info'); setTimeout(() => window.location.href='login.html', 1500)">
                             Login to Book

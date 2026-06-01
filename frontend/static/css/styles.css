@@ -329,7 +329,7 @@ header.scrolled .mobile-toggle {
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: url('https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=1800&q=90');
+    background-image: url('https://cf.bstatic.com/xdata/images/hotel/max1024x768/363404656.jpg?k=5a486418e61f2fd8b09c4590c134da28041186dfab06ffbc2f37990e16c77bb9&o=');
     background-size: cover;
     background-position: center;
     z-index: 1;
@@ -360,7 +360,8 @@ header.scrolled .mobile-toggle {
     margin-bottom: 1.5rem;
     animation: luxuryFadeUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) both;
     font-weight: 300;
-    text-shadow: 0 2px 10px rgba(0,0,0,0.15);
+    text-shadow: 0 2px 10px rgba(209, 201, 125, 0.15);
+    color: var(--color-white);
 }
 
 .hero-subtitle {
