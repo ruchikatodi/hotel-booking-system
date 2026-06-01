@@ -207,13 +207,13 @@ def init_database():
             Recommendation(
                 title='Cubbon Park',
                 description='A massive 300-acre green oasis in the heart of the city, perfect for morning walks, quiet reading, picnics, and exploring historic libraries and museums.',
-                image_url='/static/images/cubbon.jpg',
+                image_url='/static/images/cubbon.webp',
                 google_maps_url='https://maps.app.goo.gl/yXfJGUDRZv1uZRzw5?g_st=aw'
             ),
             Recommendation(
                 title='Bangalore Palace',
                 description='A majestic royal palace built in the late 19th century, featuring Tudor-style architecture, beautiful wood carvings, vintage furniture, and historical photos.',
-                image_url='/static/images/palace.jpg',
+                image_url='/static/images/palace.webp',
                 google_maps_url='https://maps.app.goo.gl/Lbkp7rJhV6rk73zX8?g_st=aw'
             ),
             Recommendation(
@@ -225,25 +225,25 @@ def init_database():
             Recommendation(
                 title='Commercial Street',
                 description='A vibrant and bustling shopping street famous for its wide variety of clothing, footwear, jewellery, street food, and lively local bazaar atmosphere.',
-                image_url='/static/images/commercial.jpg',
+                image_url='/static/images/commercial.webp',
                 google_maps_url='https://maps.app.goo.gl/hm9PQZnY2YmK5T7k6?g_st=aw'
             ),
             Recommendation(
                 title='Dyu Art Café',
                 description='A charming, artistic café housed in a traditional bungalow, offering a rustic courtyard setting, delicious continental snacks, coffee, and local art displays.',
-                image_url='/static/images/dyu_cafe.jpg',
+                image_url='/static/images/dyu_cafe.avif',
                 google_maps_url='https://maps.app.goo.gl/Y7gDcSoxQsYUxe218?g_st=aw'
             ),
             Recommendation(
                 title='Sly Granny',
                 description='A quirky, multi-story European restaurant and lounge featuring eccentric decor, a rooftop bar, artisanal cocktails, and a modern global menu.',
-                image_url='/static/images/sly.jpg',
+                image_url='/static/images/sly.avif',
                 google_maps_url='https://maps.app.goo.gl/rNpF6UdCy4aQWy7WA?g_st=aw'
             ),
             Recommendation(
                 title='Brigade Road & MG Road',
                 description='One of the city\'s most energetic commercial hubs, lined with popular retail outlets, cafes, restaurants, pubs, and vibrant nightlife venues.',
-                image_url='/static/images/church_street.jpg',
+                image_url='/static/images/church_street.webp',
                 google_maps_url='https://maps.app.goo.gl/rNpF6UdCy4aQWy7WA?g_st=aw'
             )
         ]
