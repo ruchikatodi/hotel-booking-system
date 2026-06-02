@@ -806,17 +806,31 @@ async function processPayment() {
 // ============================================
 // DASHBOARD
 // ============================================
-async function loadUserBookings() {
+async function loadUserBookings(filter = 'all') {
     if (!currentUser || !currentToken) {
         showAlert('Please login to view bookings', 'error');
         setTimeout(() => window.location.href = 'login.html', 1500);
         return;
     }
 
-    console.log('📊 Loading user bookings');
+    console.log('📊 Loading user bookings with filter:', filter);
+
+    // Fetch user profile and loyalty points dynamically
+    try {
+        const profileResponse = await fetch(`${API_BASE}/auth/profile`, {
+            headers: { 'Authorization': `Bearer ${currentToken}` }
+        });
+        const profileData = await profileResponse.json();
+        if (profileResponse.ok) {
+            console.log('Profile & Loyalty data:', profileData);
+            displayLoyaltyData(profileData);
+        }
+    } catch (profileError) {
+        console.error('❌ Error loading profile/loyalty:', profileError);
+    }
 
     try {
-        const response = await fetch(`${API_BASE}/bookings/my-bookings?filter=all`, {
+        const response = await fetch(`${API_BASE}/bookings/my-bookings?filter=${filter}`, {
             headers: { 'Authorization': `Bearer ${currentToken}` }
         });
 
@@ -831,6 +845,50 @@ async function loadUserBookings() {
     } catch (error) {
         console.error('❌ Error loading bookings:', error);
         showAlert('Network error', 'error');
+    }
+}
+
+function displayLoyaltyData(profileData) {
+    const greetingEl = document.getElementById('dashboardGreeting');
+    if (greetingEl) {
+        greetingEl.innerHTML = `Welcome back, <span style="color: var(--color-gold); font-weight: 500;">${profileData.first_name || 'Guest'}</span>`;
+    }
+
+    const loyalty = profileData.loyalty;
+    if (!loyalty) return;
+
+    const tier = loyalty.tier || 'bronze';
+    const tierCapitalized = tier.charAt(0).toUpperCase() + tier.slice(1);
+
+    const tierNameEl = document.getElementById('loyaltyTierName');
+    if (tierNameEl) tierNameEl.textContent = `${tierCapitalized} Member`;
+
+    const pointsEl = document.getElementById('loyaltyPointsVal');
+    if (pointsEl) pointsEl.textContent = loyalty.points;
+
+    const bookingsEl = document.getElementById('loyaltyBookingsVal');
+    if (bookingsEl) bookingsEl.textContent = loyalty.total_bookings;
+
+    const spentEl = document.getElementById('loyaltySpentVal');
+    if (spentEl) {
+        spentEl.textContent = `₹${parseFloat(loyalty.total_spent || 0).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+    }
+
+    const watermarkEl = document.getElementById('loyaltyWatermark');
+    if (watermarkEl) watermarkEl.textContent = tier.toUpperCase();
+
+    const progressEl = document.getElementById('loyaltyTierProgress');
+    if (progressEl) {
+        const bookingsCount = loyalty.total_bookings;
+        if (bookingsCount < 5) {
+            progressEl.textContent = `Unlock Silver Member at 5 stays (Stay ${bookingsCount}/5 completed)`;
+        } else if (bookingsCount < 10) {
+            progressEl.textContent = `Unlock Gold Member at 10 stays (Stay ${bookingsCount}/10 completed)`;
+        } else if (bookingsCount < 20) {
+            progressEl.textContent = `Unlock Platinum Member at 20 stays (Stay ${bookingsCount}/20 completed)`;
+        } else {
+            progressEl.textContent = `You have reached our ultimate Platinum tier!`;
+        }
     }
 }
 
